@@ -1,15 +1,25 @@
+:root {
+	--color-primary: rgba(131, 83, 226, 1);
+	--color-primary-light: rgba(131, 83, 226, .9);
+	--color-neutral: rgba(243, 244, 246, 1);
+	--color-body: #1d2327;
+	--color-notice: rgba(0, 0, 0, 0.87);
+	--color-success: rgba(167, 250, 172, 1);
+	--color-error: rgba(250, 167, 167, 1);
+}
+
 #wpcontent {
 	background-color: white;
+}
 
-	p:not(:last-child) {
-		margin: 0 0 16px;
-		padding: 0;
-	}
+p:where(:not(:last-child)) {
+	margin: 0 0 16px;
+	padding: 0;
+}
 
-	p:last-child {
-		margin: 0;
-		padding: 0;
-	}
+p:where(:last-child) {
+	margin: 0;
+	padding: 0;
 }
 
 .dappier-header {
@@ -19,8 +29,8 @@
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 24px;
-	padding-block: 24px;
-	border-bottom: 2px solid rgb(238, 238, 238);
+	padding-block: 24px 34px; /* bottom margin is 24px + 10px from `.wrap` top margin from WP */
+	border-bottom: 2px solid var(--color-neutral);
 }
 
 .dappier-logo {
@@ -42,7 +52,7 @@
 
 .dappier-step {
 	margin-block: 36px;
-	border: 2px solid rgba(243, 244, 246, 1);
+	border: 2px solid var(--color-neutral);
 	border-radius: 12px;
 	overflow: hidden;
 }
@@ -76,7 +86,7 @@
 	margin: 0;
 	padding: 8px 12px;
 	font-size: 1.2em;
-	background-color: #f3f4f7;
+	background-color: var(--color-neutral);
 }
 
 .dappier-heading__step {
@@ -90,21 +100,21 @@
 }
 
 .dappier-notice--success {
-	--dappier-notice-background: rgb(167, 250, 172);
-	--dappier-notice-color: rgba(0, 0, 0, 0.87);
+	--dappier-notice-background: var(--color-success);
+	--dappier-notice-color: var(--color-notice);
 }
 
 .dappier-notice--error {
-	--dappier-notice-background: rgb(250, 167, 167);
-	--dappier-notice-color: rgba(0, 0, 0, 0.87);
+	--dappier-notice-background: var(--color-error);
+	--dappier-notice-color: var(--color-notice);
 }
 
 .dappier-notice__inner {
 	display: inline-flex;
 	gap: 6px;
 	padding: 6px 12px 6px 6px;
-	background-color: var(--dappier-notice-background, #f3f4f7);
-	color: var(--dappier-notice-color, #1d2327 );
+	background-color: var(--dappier-notice-background, var(--color-neutral));
+	color: var(--dappier-notice-color, var(--color-body) );
 	border-radius: 5px;
 }
 
@@ -115,7 +125,7 @@
 #submit {
 	margin: 0;
 	padding: 6px 16px;
-	background-color: rgb(131, 83, 226);
+	background-color: var(--color-primary);
 	color: rgb(255, 255, 255);
 	border: none;
 	border-radius: 5px;
@@ -124,6 +134,5 @@
 
 #submit:hover,
 #submit:focus {
-	/* make darker */
-	background-color: rgba(131, 83, 226, .9);
+	background-color: var(--color-primary-dark);
 }
