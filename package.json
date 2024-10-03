@@ -8,7 +8,7 @@
 		"production": "mix --production",
 		"watch": "mix watch"
 	},
-	"author": "Your Name",
+	"author": "Dappier",
 	"license": "MIT",
 	"devDependencies": {
 		"laravel-mix": "^6.0.0"

@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '2833f4dbe2f83bc1da0e8c4339c411622b47614b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '2833f4dbe2f83bc1da0e8c4339c411622b47614b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

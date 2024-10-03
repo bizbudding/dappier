@@ -40,7 +40,8 @@ class Dappier_Endpoints {
 	 */
 	function register_endpoints() {
 		/**
-		 * /dappier/v1/posts/
+		 * /wp-json/dappier/v1/app
+		 * /wp-json/dappier/v1/posts
 		 */
 		$routes = [
 			'app'   => 'handle_app_request',
