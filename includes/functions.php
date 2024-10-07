@@ -57,7 +57,25 @@ function dappier_get_file_url( $filename, $type, $debug = null ) {
 function dappier_get_option( $key ) {
 	$options = get_option( 'dappier', [] );
 
-	return isset( $options[ $key ] ) ? $options[ $key ] : '';
+	return isset( $options[ $key ] ) ? $options[ $key ] : null;
+}
+
+/**
+ * Update an option in the dappier options.
+ *
+ * @since 0.1.0
+ *
+ * @param string $key   The option key.
+ * @param string $value The option value.
+ *
+ * @return bool
+ */
+function dappier_update_option( $key, $value ) {
+	$options = get_option( 'dappier', [] );
+
+	$options[ $key ] = $value;
+
+	return update_option( 'dappier', $options );
 }
 
 /**

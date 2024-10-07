@@ -133,8 +133,8 @@ final class Dappier_Plugin {
 	 * @return  void
 	 */
 	public function hooks() {
-		add_action( 'plugins_loaded', [ $this, 'updater' ] );
-		add_action( 'init',           [ $this, 'register_content_types' ] );
+		add_action( 'plugins_loaded',   [ $this, 'updater' ] );
+		add_action( 'activated_plugin', [ $this, 'redirect' ] );
 
 		register_activation_hook( __FILE__, [ $this, 'activate' ] );
 		register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
@@ -180,21 +180,37 @@ final class Dappier_Plugin {
 	}
 
 	/**
-	 * Register content types.
-	 *
-	 * @return  void
-	 */
-	public function register_content_types() {
-	}
-
-	/**
 	 * Plugin activation.
 	 *
 	 * @return  void
 	 */
 	public function activate() {
-		$this->register_content_types();
-		flush_rewrite_rules();
+		// Bail if the redirect has already been run.
+		if ( ! is_null( dappier_get_option( 'activation_redirect' ) ) ) {
+			return;
+		}
+
+		// Set onboarding option.
+		dappier_update_option( 'activation_redirect', true );
+	}
+
+	function redirect( $plugin ) {
+		ray( $plugin, dappier_get_option( 'activation_redirect' ) );
+
+		// Bail if the activation is not for this plugin.
+		if ( plugin_basename( __FILE__ ) !== $plugin ) {
+			return;
+		}
+
+		// Bail if the redirect has already been run.
+		if ( ! dappier_get_option( 'activation_redirect' ) ) {
+			return;
+		}
+
+		// Set onboarding option.
+		dappier_update_option( 'activation_redirect', false );
+
+		exit( wp_safe_redirect( esc_url( admin_url( 'options-general.php?page=dappier' ) ) ) );
 	}
 }
 

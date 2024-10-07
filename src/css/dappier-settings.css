@@ -14,7 +14,9 @@
 }
 
 #wpbody {
+	max-width: 1200px;
 	height: calc(100dvh - var(--wp-admin--admin-bar--height));
+	margin-inline: auto;
 }
 
 p:where(:not(:last-child)) {

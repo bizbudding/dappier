@@ -142,6 +142,7 @@ class Dappier_Endpoints {
 				// Add custom data to each post.
 				$data[] = [
 					'id'             => $post_id,
+					'url'            => get_permalink(),
 					'title'          => get_the_title(),
 					'date'           => get_the_date( 'c' ),
 					'featured_image' => get_the_post_thumbnail_url( $post_id, 'full' ),

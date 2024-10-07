@@ -338,8 +338,6 @@ class Dappier_Settings {
 							echo '</div>';
 						echo '</div>';
 
-						ray( get_option( 'dappier' ) );
-
 						// If API key.
 						if ( $api_key ) {
 							// Get the agent and heading.
@@ -688,7 +686,8 @@ class Dappier_Settings {
 	 * @return array associative array of plugin action links.
 	 */
 	function add_plugin_links( $actions, $plugin_file, $plugin_data, $context ) {
-		$actions['settings'] = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'edit.php?post_type=mai_ad&page=settings' ) ), __( 'Settings', 'dappier' ) );
+		$settings = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=dappier' ) ), __( 'Settings', 'dappier' ) );
+		$actions  = [ 'settings' => $settings ] + $actions;
 
 		return $actions;
 	}
