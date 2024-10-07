@@ -145,6 +145,7 @@ class Dappier_Endpoints {
 					'url'            => get_permalink(),
 					'title'          => get_the_title(),
 					'date'           => get_the_date( 'c' ),
+					'date_modified'  => get_the_modified_date( 'c' ),
 					'featured_image' => get_the_post_thumbnail_url( $post_id, 'full' ),
 					'excerpt'        => get_the_excerpt(),
 					'content'        => $content,
