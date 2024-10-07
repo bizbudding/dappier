@@ -194,9 +194,14 @@ final class Dappier_Plugin {
 		dappier_update_option( 'activation_redirect', true );
 	}
 
-	function redirect( $plugin ) {
-		ray( $plugin, dappier_get_option( 'activation_redirect' ) );
-
+	/**
+	 * Redirect to settings page on activation.
+	 *
+	 * @param string $plugin The plugin basename.
+	 *
+	 * @return void
+	 */
+	public function redirect( $plugin ) {
 		// Bail if the activation is not for this plugin.
 		if ( plugin_basename( __FILE__ ) !== $plugin ) {
 			return;
