@@ -146,6 +146,7 @@ class Dappier_Endpoints {
 					'title'          => get_the_title(),
 					'date'           => get_the_date( 'c' ),
 					'date_modified'  => get_the_modified_date( 'c' ),
+					'author'         => get_the_author(),
 					'featured_image' => get_the_post_thumbnail_url( $post_id, 'full' ),
 					'excerpt'        => get_the_excerpt(),
 					'content'        => $content,
@@ -159,6 +160,7 @@ class Dappier_Endpoints {
 
 		// Prepare the paginated response.
 		$response = [
+			'site'         => get_bloginfo( 'name' ),
 			'posts'        => $data,
 			'total'        => (int) $query->found_posts,
 			'per_page'     => (int) $per_page,
