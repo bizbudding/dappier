@@ -37,14 +37,15 @@ class Dappier_Settings {
 	 * @return void
 	 */
 	function add_menu_item() {
-		// Add menu item under Settings for Dappier.
-		add_submenu_page(
-			'options-general.php', // parent_slug
-			__( 'Dappier', 'dappier' ), // page_title
-			__( 'Dappier', 'dappier' ), // menu_title
-			'manage_options', // capability
-			'dappier', // menu_slug
-			[ $this, 'add_content' ] // function
+		// Add top-level menu for Dappier.
+		add_menu_page(
+			__( 'Dappier', 'dappier' ), // Page title
+			__( 'Dappier', 'dappier' ), // Menu title
+			'manage_options', // Capability
+			'dappier', // Menu slug
+			[ $this, 'add_content' ], // Function to display content
+			'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEzNy40NCAxNjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDEzNy40NCAxNjA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNjY2MiIHN0cm9rZS13aWR0aD0iNSIgZD0iTTQyLjE3LDIyLjk4bDMxLjQ2LDM1LjY1Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjUiIGQ9Ik0xMjMuNiwyNC40MWwtMTYuNzgsMzMuNTYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNjY2MiIHN0cm9rZS13aWR0aD0iNSIgZD0iTTMxLjQ2LDg0LjY1aDI3LjI2Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjUiIGQ9Ik03Ny45MSwxNDcuODRsMTAuNDktMzcuNzUiLz48cGF0aCBmaWxsPSIjZDRkNGQ0IiBkPSJNMTE1LjM1LDE5LjIzYzAsNS43OSw0LjY5LDEwLjQ5LDEwLjQ5LDEwLjQ5YzUuNzksMCwxMC40OS00LjY5LDEwLjQ5LTEwLjQ5cy00LjctMTAuNDktMTAuNDktMTAuNDkgUzExNS4zNSwxMy40NCwxMTUuMzUsMTkuMjN6Ii8+PHBhdGggZmlsbD0iI2Q0ZDRkNCIgZD0iTTY3LjExLDE0OS4yN2MwLDUuNzksNC42OSwxMC40OSwxMC40OSwxMC40OXMxMC40OS00LjcsMTAuNDktMTAuNDlzLTQuNjktMTAuNDktMTAuNDktMTAuNDkgUzY3LjExLDE0My40OCw2Ny4xMSwxNDkuMjd6Ii8+PHBhdGggZmlsbD0iI2Q0ZDRkNCIgZD0iTTIwLjYyLDI1LjE3YzAsMTMuOSwxMS4yNywyNS4xNywyNS4xNywyNS4xN3MyNS4xNy0xMS4yNywyNS4xNy0yNS4xN1M1OS42OSwwLDQ1Ljc4LDBTMjAuNjIsMTEuMjcsMjAuNjIsMjUuMTcgeiIvPjxwYXRoIGZpbGw9IiNkNGQ0ZDQiIGQ9Ik0wLDg0LjI1YzAsOS4yNyw3LjUxLDE2Ljc4LDE2Ljc4LDE2Ljc4czE2Ljc4LTcuNTEsMTYuNzgtMTYuNzhzLTcuNTEtMTYuNzgtMTYuNzgtMTYuNzhTMCw3NC45OCwwLDg0LjI1eiIvPjxsaW5lYXJHcmFkaWVudCBpZD0iU1ZHSURfMV8iIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iNjMuNzA2NiIgeTE9IjExMi4zMzExIiB4Mj0iMTQwLjQ4MDYiIHkyPSIzNS40MTMxIiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTYyKSI+PHN0b3Agb2Zmc2V0PSIwIiBzdHlsZT0ic3RvcC1jb2xvcjojQ0Q2MkZGIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdHlsZT0ic3RvcC1jb2xvcjojNkJCQ0ZGIi8+PC9saW5lYXJHcmFkaWVudD48cGF0aCBmaWxsPSJ1cmwoI1NWR0lEXzFfKSIgZD0iTTEyMi45NSw1NC45OGM4LDAsMTQuNDksNi4yLDE0LjQ5LDEzLjg2djMzLjM5YzAsNS45MS01LjAxLDEwLjcxLTExLjIsMTAuNzFjLTEuODIsMC0zLjI5LDEuNDEtMy4yOSwzLjE1IHYxMC43MWMwLDEuNDgtMC45MSwyLjgzLTIuMzIsMy40NGMtMS40MSwwLjYxLTMuMDcsMC4zOC00LjIzLTAuNmwtMTguMS0xNS4xNGMtMS4yMi0xLjAxLTIuNzUtMS41Ni00LjM0LTEuNTZINzIuOSBjLTgsMC0xNC40OS02LjIxLTE0LjQ5LTEzLjg2VjY4Ljg0YzAtNy42NSw2LjQ5LTEzLjg2LDE0LjQ5LTEzLjg2QzcyLjksNTQuOTgsMTIyLjk1LDU0Ljk4LDEyMi45NSw1NC45OHoiLz48L3N2Zz4=',
+			56 // Position
 		);
 	}
 
@@ -58,7 +59,7 @@ class Dappier_Settings {
 	function enqueue_script() {
 		$screen = get_current_screen();
 
-		if ( 'settings_page_dappier' !== $screen->id ) {
+		if ( 'toplevel_page_dappier' !== $screen->id ) {
 			return;
 		}
 
@@ -90,7 +91,7 @@ class Dappier_Settings {
 			__( 'API Key', 'dappier' ), // title
 			[ $this, 'api_key_callback' ], // callback
 			'dappier', // page
-			'dappier_one' // section
+			'dappier_two' // section
 		);
 
 		// Agent Name.
@@ -100,7 +101,7 @@ class Dappier_Settings {
 			'', // title
 			[ $this, 'aimodel_id_callback' ], // callback
 			'dappier', // page
-			'dappier_two' // section
+			'dappier_three' // section
 		);
 
 		// Agent Name.
@@ -110,7 +111,7 @@ class Dappier_Settings {
 			'', // title
 			[ $this, 'agent_name_callback' ], // callback
 			'dappier', // page
-			'dappier_two' // section
+			'dappier_three' // section
 		);
 
 		// Agent Description.
@@ -120,7 +121,7 @@ class Dappier_Settings {
 			'', // title
 			[ $this, 'agent_desc_callback' ], // callback
 			'dappier', // page
-			'dappier_two' // section
+			'dappier_three' // section
 		);
 
 		// Agent Description.
@@ -130,7 +131,7 @@ class Dappier_Settings {
 			'', // title
 			[ $this, 'agent_persona_callback' ], // callback
 			'dappier', // page
-			'dappier_two' // section
+			'dappier_three' // section
 		);
 	}
 
@@ -227,7 +228,11 @@ class Dappier_Settings {
 
 		echo '<div style="display:none;" class="dappier-step__field agent_name">';
 			printf( '<label class="dappier-step__label" for="dappier[agent_name]">%s</label>', __( 'Name', 'dappier' ) );
-			printf( '<input class="dappier-step__input" type="text" name="dappier[agent_name]" id="agent_name" value="%s">', $value );
+			printf( '<p class="dappier-step__desc">%s</p>', __( 'Give your AI agent a name.', 'dappier' ) );
+			printf( '<input class="dappier-step__input" type="text" name="dappier[agent_name]" id="agent_name" placeholder="%s" value="%s">',
+				get_bloginfo( 'name' ),
+				$value
+			);
 		echo '</div>';
 	}
 
@@ -244,8 +249,11 @@ class Dappier_Settings {
 
 		echo '<div style="display:none;" class="dappier-step__field agent_desc">';
 			printf( '<label class="dappier-step__label" for="dappier[agent_desc]">%s</label>', __( 'Description', 'dappier' ) );
-			printf( '<p class="dappier-step__desc">%s</p>', __( 'Short description of the site', 'dappier' ) );
-			printf( '<textarea id="agent_desc" class="dappier-step__input" name="dappier[agent_desc]" rows="3">%s</textarea>', $value );
+			printf( '<p class="dappier-step__desc">%s</p>', __( 'Add a short description of what this AI Agent can do.', 'dappier' ) );
+			printf( '<textarea id="agent_desc" class="dappier-step__input" name="dappier[agent_desc]" rows="3" placeholder="%s">%s</textarea>',
+				__( 'You are a helpful guide on all the latest tech startup and technology news', 'dappier' ),
+				$value
+			);
 		echo '</div>';
 	}
 
@@ -262,7 +270,10 @@ class Dappier_Settings {
 		echo '<div style="display:none;" class="dappier-step__field agent_persona">';
 			printf( '<label class="dappier-step__label" for="dappier[agent_persona]">%s</label>', __( 'Persona', 'dappier' ) );
 			printf( '<p class="dappier-step__desc">%s</p>', __( 'How should this AI Agent answer questions? What does it do? What should it not do?', 'dappier' ) );
-			printf( '<textarea class="dappier-step__input" name="dappier[agent_persona]" id="agent_persona" rows="3">%s</textarea>', $value );
+			printf( '<textarea class="dappier-step__input" name="dappier[agent_persona]" id="agent_persona" rows="3" placeholder="%s">%s</textarea>',
+				__( 'Use the available content sources and respond in a friendly manner.', 'dappier' ),
+				$value
+			);
 		echo '</div>';
 	}
 
@@ -274,111 +285,172 @@ class Dappier_Settings {
 	 * @return void
 	 */
 	function add_content() {
+		// Get status, API key, and details.
+		$status   = isset( $_GET['status'] ) && $_GET['status'] ? sanitize_text_field( $_GET['status'] ) : '';
+		$api_key  = dappier_get_option( 'api_key' );
+		$agent    = dappier_get_option( 'aimodel_id' );
+		$details  = $this->get_details();
+		$active   = ( $api_key && $details ) || 'active'     === $status;
+		$inactive = ! ( $api_key && $details ) || 'inactive' === $status;
+
 		// Start the wrap.
 		echo '<div class="wrap">';
 
 			// Header.
 			echo '<div class="dappier-header">';
-				printf( '<p class="dappier-logo"><img class="dappier-logo__img" src="%s" alt="%s" /></p>', DAPPIER_PLUGIN_URL . 'src/img/dappier-logo.webp', __( 'Dappier Logo', 'dappier' ) );
+				printf( '<p class="dappier-logo"><img class="dappier-logo__img" src="%s" alt="%s" /></p>', DAPPIER_PLUGIN_URL . 'src/img/dappier-logo.svg', __( 'Dappier Logo', 'dappier' ) );
 				echo '<div class="dappier-header__content">';
 					printf( '<p>%s: %s</p>', __( 'Version', 'dappier' ), DAPPIER_PLUGIN_VERSION );
 				echo '</div>';
 			echo '</div>';
 
 			// Description.
-			printf( '<h2>%s</h2>', __( 'Dappier for WordPress', 'dappier' ) );
-			printf( '<p>%s</p>', __( 'Settings and configuration for Dappier for WordPress plugin.', 'dappier' ) );
+			// printf( '<h2>%s</h2>', __( 'Dappier for WordPress', 'dappier' ) );
+			// printf( '<p>%s</p>', __( 'Settings and configuration for Dappier for WordPress plugin.', 'dappier' ) );
+
+			/**
+			 * TEMP:
+			 * @link https://app.visily.ai/projects/c10889df-54a3-4691-a3e0-cf551acd0183/boards/882115
+			 */
+
+			// Start inner classes.
+			$classes = 'dappier-inner';
+
+			// Add classes based on status.
+			if ( $inactive ) {
+				$classes .= ' dappier-inner__inactive';
+			} elseif ( $active ) {
+				$classes .= ' dappier-inner__active';
+			}
 
 			// Inner.
-			echo '<div class="dappier-inner">';
-				// Content.
-				echo '<div class="dappier-inner__content">';
-					echo '<form class="dappier-form" method="post" action="options.php">';
-						// Get details.
-						$details = $this->get_details();
+			printf( '<div class="%s">', $classes );
+				// Start form.
+				echo '<form class="dappier-form" method="post" action="options.php">';
+					// Step 1.
+					echo '<div class="dappier-step dappier-step__one">';
+						echo '<div class="dappier-step__inner">';
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 1 | Create a Dappier Account', 'dappier' ) );
+							echo '<div class="dappier-step__content">';
+								printf( '<p>%s</p>', __( 'By creating a free Dappier account, you will be able to:', 'dappier' ) );
 
-						// If details.
-						if ( $details ) {
-							// Account info.
-							echo '<div class="dappier-step dappier-step__info">';
-								echo '<div class="dappier-step__inner">';
-									printf( '<h3 class="dappier-heading">%s</h3>', __( 'Account', 'dappier' ) );
-									echo '<div class="dappier-step__content">';
-										printf( '<p>%s</p>', __( 'This is the first section.', 'dappier' ) );
-										printf( '<p>%s</p>', __( 'Some text about making an account', 'dappier' ) );
+								echo '<ul style="list-style:disc inside;">';
+									printf( '<li>' . __( '%1$sEngage your audience%2$s with AI-powered chat and assistance across your website content.', 'dappier' ) . '</li>', '<strong>', '</strong>' );
+									printf( '<li>' . __( '%1$sCombat traffic loss%2$s due to scrapers and %1$sincrease traffic%2$s through AI-driven content recommendations and recirculation.', 'dappier' ) . '</li>', '<strong>', '</strong>' );
+									printf( '<li>' . __( '%1$sGenerate additional revenue%2$s by syndicating your content free to Dappier\'s AI Marketplace.', 'dappier' ) . '</li>', '<strong>', '</strong>' );
+									printf( '<li>' . __( '%1$sMonetize%2$s chat interactions with Dappier\'s highly relevant conversational, context-aware ads in your AI chat.', 'dappier' ) . '</li>', '<strong>', '</strong>' );
+								echo '</ul>';
 
-										echo '<table>';
+								printf( '<p><a href="https://dappier.com" target="_blank" rel="noopener">%s</a></p>', __( 'Learn more about Dappier', 'dappier' ) );
+								printf( '<p><a href="https://platform.dappier.com/sign-in" class="button button-primary" target="_blank" rel="noopener">%s</a></p>', __( 'Create an Account', 'dappier' ) );
 
-										foreach ( $details as $key => $value ) {
-											printf( '<tr><td>%s: </td><td>%s</td></tr>', $key, $value );
-										}
-
-										echo '</table>';
-
-									echo '</div>';
-								echo '</div>';
-							echo '</div>';
-						}
-
-						// Get the saved API key and heading.
-						$api_key = dappier_get_option( 'api_key' );
-						$heading = $api_key ? __( 'API key', 'dappier' ) : __( 'Connect your account', 'dappier' );
-
-						// Step 1.
-						echo '<div class="dappier-step dappier-step__one">';
-							if ( ! $api_key ) {
-								printf( '<p class="dappier-preheading">%s</p>', __( 'Step 1', 'dappier' ) );
-							}
-							echo '<div class="dappier-step__inner">';
-								printf( '<h3 class="dappier-heading">%s</h3>', $heading );
-								echo '<div class="dappier-step__content">';
-									printf( '<p>%s</p>', __( 'Enter your Dappier API key below to connect your site.', 'dappier' ) );
-									do_settings_fields( 'dappier', 'dappier_one');
-								echo '</div>';
 							echo '</div>';
 						echo '</div>';
+					echo '</div>';
 
-						// If API key.
-						if ( $api_key ) {
-							// Get the agent and heading.
-							$agent   = dappier_get_option( 'aimodel_id' );
-							$heading = $agent ? __( 'Agent', 'dappier' ) : __( 'Create or choose your agent', 'dappier' );
-
-							// Step 2.
-							echo '<div class="dappier-step dappier-step__three">';
-								if ( ! $agent ) {
-									printf( '<p class="dappier-preheading">%s</p>', __( 'Step 2', 'dappier' ) );
-								}
-								echo '<div class="dappier-step__inner">';
-									printf( '<h3 class="dappier-heading">%s</h3>', $heading );
-									echo '<div class="dappier-step__content">';
-										printf( '<p>%s</p>', __( 'Instructions for this section.', 'dappier' ) );
-										do_settings_fields( 'dappier', 'dappier_two');
-									echo '</div>';
-								echo '</div>';
+					// Step 2.
+					echo '<div class="dappier-step dappier-step__two">';
+						echo '<div class="dappier-step__inner">';
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 2 | Activate your account with your API key', 'dappier' ) );
+							echo '<div class="dappier-step__content">';
+								printf( '<p>%s</p>', __( 'Once you have created a Dappier account, activate this plugin to connect your site to Dappier and create an AI Agent.', 'dappier' ) );
+								printf( '<p>%s</p>', __( 'To activate your plugin, enter your API Access key.', 'dappier' ) );
+								printf( '<p><a href="https://dappier.com" target="_blank" rel="noopener">%s</a></p>', __( 'Click here to get your API Key', 'dappier' ) );
+								do_settings_fields( 'dappier', 'dappier_two');
+								$button_text = $api_key ? __( 'Update API Key', 'dappier' ) : __( 'Save and Connect', 'dappier' );
+								submit_button( $button_text, 'primary', 'submit_two' );
 							echo '</div>';
-						}
+						echo '</div>';
+					echo '</div>';
 
-						// Hidden fields and submit button.
-						settings_fields( 'dappier' );
-						submit_button( __( 'Save Settings', 'dappier' ) );
+					// Step 3.
+					echo '<div class="dappier-step dappier-step__three">';
+						echo '<div class="dappier-step__inner">';
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 1 | Create or choose your default AI Agent', 'dappier' ) );
+							echo '<div class="dappier-step__content">';
+								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
+								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
+								do_settings_fields( 'dappier', 'dappier_three');
+								$button_text = $agent ? __( 'Update Agent', 'dappier' ) : __( 'Save Agent', 'dappier' );
+								submit_button( $button_text, 'primary', 'submit_three' );
+							echo '</div>';
+						echo '</div>';
+					echo '</div>';
 
-					echo '</form>';
-				echo '</div>';
+					// Step 4.
+					echo '<div class="dappier-step dappier-step__four">';
+						echo '<div class="dappier-step__inner">';
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 2 | Configure your site', 'dappier' ) );
+							echo '<div class="dappier-step__content">';
+								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
+								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
+								printf( '<p><a href="%s" class="button button-primary">%s</a></p>', '#', __( 'Configure Site', 'dappier' ) );
+							echo '</div>';
+						echo '</div>';
+					echo '</div>';
+
+					// Step 5.
+					echo '<div class="dappier-step dappier-step__five">';
+						echo '<div class="dappier-step__inner">';
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 3 | Opt into Dappier Marketplace to syndicate & earn money for your content', 'dappier' ) );
+							echo '<div class="dappier-step__content">';
+								printf( '<p>%s</p>', __( 'Join our marketplace to earn money as your content is discovered and accessed by AI developers and LLMs that will compensate you on a pay-per-query (question) basis.', 'dappier' ) );
+								printf( '<p><a href="%s" class="button button-primary">%s</a></p>', '#', __( 'Publish your data to Dappier\'s marketplace', 'dappier' ) );
+							echo '</div>';
+						echo '</div>';
+					echo '</div>';
+
+					// Hidden fields.
+					settings_fields( 'dappier' );
+				echo '</form>';
 
 				// Sidebar.
 				echo '<div class="dappier-inner__sidebar">';
 					echo '<div class="dappier-step dappier-step_sidebar">';
+						// If active.
+						if ( $active ) {
+							// My Account.
+							echo '<div class="dappier-step__inner">';
+								printf( '<h2 class="dappier-heading">%s</h2>', __( 'My Account', 'dappier' ) );
+								echo '<div class="dappier-step__content">';
+									printf( '<p><strong>%s</strong></p>', __( 'Congratulations! You have linked your dappier account.', 'dappier' ) );
+									echo '<ul class="dappier-step__details">';
+										foreach ( $details as $key => $value ) {
+											printf( '<li><span>%s:</span> <span>%s</span></li>', $key, $value );
+										}
+									echo '</ul>';
+								echo '</div>';
+							echo '</div>';
+						}
+
+						// About Dappier.
 						echo '<div class="dappier-step__inner">';
-							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Sidebar', 'dappier' ) );
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'About Dappier', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
-								printf( '<p>%s</p>', __( 'This is the sidebar section.', 'dappier' ) );
-								printf( '<p>%s</p>', __( 'Some text about making an account', 'dappier' ) );
+								printf( '<p>%s</p>', __( 'Dappier is a platform that helps you engage your audience and monetize your content through AI-powered tools.', 'dappier' ) );
+								echo '<ul>';
+									printf( '<li><a rel="noopener" target="_blank" href="https://dappier.com">> %s</a></li>', __( 'Dappier Home', 'dappier' ) );
+									printf( '<li><a rel="noopener" target="_blank" href="https://platform.dappier.com/subscription-plan">> %s</a></li>', __( 'Pricing', 'dappier' ) );
+									printf( '<li><a rel="noopener" target="_blank" href="https://dappier.com/team/">> %s</a></li>', __( 'Who we are', 'dappier' ) );
+								echo '</ul>';
 							echo '</div>';
 						echo '</div>';
+
+						// Need Help?
+						echo '<div class="dappier-step__inner">';
+							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Need Help?', 'dappier' ) );
+							echo '<div class="dappier-step__content">';
+								printf( '<p>%s</p>', __( 'Do you need assistance or more details?', 'dappier' ) );
+								echo '<ul>';
+									printf( '<li><a rel="noopener" target="_blank" href="https://docs.dappier.com/">> %s</a></li>', __( 'Docs', 'dappier' ) );
+									printf( '<li><a rel="noopener" target="_blank" href="https://docs.dappier.com/embed-widgets">> %s</a></li>', __( 'Widgets', 'dappier' ) );
+									printf( '<li><a rel="noopener" target="_blank" href="https://docs.dappier.com/bot-deterrence">> %s</a></li>', __( 'Scraper Bots Deterrence', 'dappier' ) );
+								echo '</ul>';
+							echo '</div>';
+						echo '</div>';
+
 					echo '</div>';
 				echo '</div>';
-
 			echo '</div>';
 		echo '</div>';
 	}
@@ -391,21 +463,23 @@ class Dappier_Settings {
 	 * @return array
 	 */
 	function get_details() {
-		// Get the API key.
-		$api_key = dappier_get_option( 'api_key' );
+		// Get required data.
+		$details    = [];
+		$api_key    = dappier_get_option( 'api_key' );
+		$aimodel_id = dappier_get_option( 'aimodel_id' );
+		// $aimodel_id = '66fd67f552c021d02d45432f'; // Testing.
 
-		// Bail if no API key.
-		if ( ! $api_key ) {
-			return;
+		// Bail missing data.
+		if ( ! ( $api_key && $aimodel_id ) ) {
+			return $details;
 		}
 
 		// Set up the transient name.
 		$transient = 'dappier_details';
 
 		// Check for transient.
-		if ( false === ( $body = get_transient( $transient ) ) ) {
+		if ( false === ( $details = get_transient( $transient ) ) ) {
 			// Set up the API url and body.
-			$aimodel_id = '66fd67f552c021d02d45432f';
 			$url        = "https://api.dappier.com/v1/integrations/account?aimodelid={$aimodel_id}";
 			$args       = [
 				'headers' => [
@@ -420,15 +494,15 @@ class Dappier_Settings {
 
 			// Check for errors.
 			if ( 200 !== $code ) {
-				$body = [];
+				$details = [];
 			}
 			// No errors.
 			else {
 				// Decode the body.
-				$body = json_decode( $body, true );
+				$details = json_decode( $body, true );
 
 				// Set the transient.
-				set_transient( $transient, $body, MINUTE_IN_SECONDS * 5 );
+				set_transient( $transient, $details, MINUTE_IN_SECONDS * 5 );
 			}
 		}
 
@@ -437,40 +511,40 @@ class Dappier_Settings {
 			'account_id'           => [ 'label' => __( 'Account ID', 'dappier' ), 'sanitize' => 'sanitize_key' ],
 			'email'                => [ 'label' => __( 'Email', 'dappier' ), 'sanitize' => 'sanitize_email' ],
 			'name'                 => [ 'label' => __( 'Name', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
-			'subscription_level'   => [ 'label' => __( 'Subscription Level', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
-			'created_at'           => [ 'label' => __( 'Created At', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
-			'ai_agents_used'       => [ 'label' => __( 'AI Agents Used', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
-			'queries_used_month'   => [ 'label' => __( 'Queries Used This Month', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
-			'rev_share_in_percent' => [ 'label' => __( 'Revenue Share in Percent', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
+			'subscription_level'   => [ 'label' => __( 'Subscription', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
+			'ai_agents_used'       => [ 'label' => __( 'AI Agents', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
+			'created_at'           => [ 'label' => __( 'Created at', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
+			'queries_used_month'   => [ 'label' => __( 'Queries this Month', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
+			'rev_share_in_percent' => [ 'label' => __( 'Revenue Share', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
 		];
 
 		// Loop and sanitize.
 		foreach ( $map as $key => $data ) {
 			// Skip if not set.
-			if ( ! isset( $body[ $key ] ) ) {
+			if ( ! isset( $details[ $key ] ) ) {
 				continue;
 			}
 
 			// Sanitize.
-			$body[ $data['label'] ] = $data['sanitize']( $body[ $key ] );
+			$details[ $data['label'] ] = $data['sanitize']( $details[ $key ] );
 
 			// Format.
 			switch ( $key ) {
 				case 'created_at':
-					$timestamp    = strtotime( $body[ $key ] );
-					$date         = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp );
-					$body[ $data['label'] ] = $date;
+					$timestamp                 = strtotime( $details[ $key ] );
+					$date                      = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp );
+					$details[ $data['label'] ] = $date;
 				break;
 				case 'rev_share_in_percent':
-					$body[ $data['label'] ] .= '%';
+					$details[ $data['label'] ] .= '%';
 				break;
 			}
 
 			// Unset the old key.
-			unset( $body[ $key ] );
+			unset( $details[ $key ] );
 		}
 
-		return $body;
+		return $details;
 	}
 
 	/**
