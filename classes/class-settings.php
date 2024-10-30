@@ -286,12 +286,12 @@ class Dappier_Settings {
 	 */
 	function add_content() {
 		// Get status, API key, and details.
-		$status   = isset( $_GET['status'] ) && $_GET['status'] ? sanitize_text_field( $_GET['status'] ) : '';
-		$api_key  = dappier_get_option( 'api_key' );
-		$agent    = dappier_get_option( 'aimodel_id' );
-		$details  = $this->get_details();
-		$active   = ( $api_key && $details ) || 'active'     === $status;
-		$inactive = ! ( $api_key && $details ) || 'inactive' === $status;
+		$status     = isset( $_GET['status'] ) && $_GET['status'] ? sanitize_text_field( $_GET['status'] ) : '';
+		$api_key    = dappier_get_option( 'api_key' );
+		$aimodel_id = dappier_get_option( 'aimodel_id' );
+		$details    = $this->get_details();
+		$active     = ( $api_key && $details ) || 'active'     === $status;
+		$inactive   = ! ( $api_key && $details ) || 'inactive' === $status;
 
 		// Start the wrap.
 		echo '<div class="wrap">';
@@ -371,7 +371,7 @@ class Dappier_Settings {
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
 								do_settings_fields( 'dappier', 'dappier_three');
-								$button_text = $agent ? __( 'Update Agent', 'dappier' ) : __( 'Save Agent', 'dappier' );
+								$button_text = $aimodel_id ? __( 'Update Agent', 'dappier' ) : __( 'Save Agent', 'dappier' );
 								submit_button( $button_text, 'primary', 'submit_three' );
 							echo '</div>';
 						echo '</div>';
@@ -407,17 +407,26 @@ class Dappier_Settings {
 				// Sidebar.
 				echo '<div class="dappier-inner__sidebar">';
 					echo '<div class="dappier-step dappier-step_sidebar">';
+
 						// If active.
 						if ( $active ) {
 							// My Account.
 							echo '<div class="dappier-step__inner">';
 								printf( '<h2 class="dappier-heading">%s</h2>', __( 'My Account', 'dappier' ) );
 								echo '<div class="dappier-step__content">';
-									printf( '<p><strong>%s</strong></p>', __( 'Congratulations! You have linked your dappier account.', 'dappier' ) );
-									echo '<ul class="dappier-step__details">';
+
+									// If agent is selected.
+									if ( $aimodel_id ) {
+										printf( '<p><strong>%s</strong></p>', __( 'Congratulations! You have linked your Dappier account.', 'dappier' ) );
+										echo '<ul class="dappier-step__details">';
 										foreach ( $details as $key => $value ) {
 											printf( '<li><span>%s:</span> <span>%s</span></li>', $key, $value );
 										}
+									}
+									// No agent.
+									else {
+										printf( '<p>%s</p>', __( 'Please create or choose your AI agent to link your Dappier account.', 'dappier' ) );
+									}
 									echo '</ul>';
 								echo '</div>';
 							echo '</div>';
@@ -601,10 +610,6 @@ class Dappier_Settings {
 		}
 
 		return $body;
-	}
-
-	function get_agent() {
-
 	}
 
 	/**
