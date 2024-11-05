@@ -6,7 +6,7 @@
 	--color-link: #678af9;
 	--color-notice: rgba(0, 0, 0, 0.87);
 	--color-success: rgba(167, 250, 172, 1);
-	--color-error: rgba(250, 167, 167, 1);
+	--color-error: rgba(255, 0, 0, 1);
 	--border-radius: 12px;
 }
 
@@ -27,6 +27,13 @@ p {
 
 a {
 	color: var(--color-link);
+}
+
+a:focus {
+	/* match/override WP core button styles */
+	color: currentColor;
+	box-shadow: 0 0 0 2px var(--color-primary);
+	outline: 2px solid transparent;
 }
 
 a:hover,
@@ -116,7 +123,7 @@ a:focus-visible {
 	}
 }
 
-.dappier-inner__inactive {
+.dappier-inner:not(.dappier-inner__active) {
 
 	.dappier-step__three,
 	.dappier-step__four,
@@ -247,7 +254,8 @@ p.submit {
 
 .wp-core-ui {
 
-	.button {
+	.button,
+	.button:focus {
 		margin: 0;
 		padding: 6px 16px;
 		background-color: var(--color-primary);
@@ -255,6 +263,12 @@ p.submit {
 		border: none;
 		border-radius: 5px;
 		transition: all .2s ease-in-out;
+	}
+
+	.button:focus {
+		/* match/override WP core button styles */
+		box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--color-primary);
+		outline: 2px solid transparent;
 	}
 
 	.button:active,

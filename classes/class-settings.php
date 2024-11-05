@@ -25,7 +25,8 @@ class Dappier_Settings {
 		add_action( 'admin_menu',                              [ $this, 'add_menu_item' ], 12 );
 		add_action( 'admin_enqueue_scripts',                   [ $this, 'enqueue_script' ] );
 		add_action( 'admin_init',                              [ $this, 'init' ] );
-		add_filter( 'pre_update_option_dappier',               [ $this, 'update' ], 10, 3 );
+		add_filter( 'pre_update_option_dappier',               [ $this, 'before_update_settings' ], 10, 3 );
+		add_action( 'update_option_dappier',                   [ $this, 'after_update_settings' ], 10, 2 );
 		add_filter( 'plugin_action_links_dappier/dappier.php', [ $this, 'add_plugin_links' ], 10, 4 );
 	}
 
@@ -290,8 +291,21 @@ class Dappier_Settings {
 		$api_key    = dappier_get_option( 'api_key' );
 		$aimodel_id = dappier_get_option( 'aimodel_id' );
 		$details    = $this->get_details();
-		$active     = ( $api_key && $details ) || 'active'     === $status;
-		$inactive   = ! ( $api_key && $details ) || 'inactive' === $status;
+		$active     = null;
+
+		// Check status and set active.
+		switch ( $status ) {
+			case 'active':
+				$active = true;
+			break;
+			case 'inactive':
+				$active = false;
+			break;
+			break;
+			default:
+				// Active if no API key, and either no details or details that are not an error.
+				$active = $api_key && ( ! $details || ( $details && ! is_wp_error( $details ) ) );
+		}
 
 		// Start the wrap.
 		echo '<div class="wrap">';
@@ -304,10 +318,6 @@ class Dappier_Settings {
 				echo '</div>';
 			echo '</div>';
 
-			// Description.
-			// printf( '<h2>%s</h2>', __( 'Dappier for WordPress', 'dappier' ) );
-			// printf( '<p>%s</p>', __( 'Settings and configuration for Dappier for WordPress plugin.', 'dappier' ) );
-
 			/**
 			 * TEMP:
 			 * @link https://app.visily.ai/projects/c10889df-54a3-4691-a3e0-cf551acd0183/boards/882115
@@ -317,10 +327,10 @@ class Dappier_Settings {
 			$classes = 'dappier-inner';
 
 			// Add classes based on status.
-			if ( $inactive ) {
-				$classes .= ' dappier-inner__inactive';
-			} elseif ( $active ) {
+			if ( $active ) {
 				$classes .= ' dappier-inner__active';
+			} else {
+				$classes .= ' dappier-inner__inactive';
 			}
 
 			// Inner.
@@ -359,6 +369,11 @@ class Dappier_Settings {
 								do_settings_fields( 'dappier', 'dappier_two');
 								$button_text = $api_key ? __( 'Update API Key', 'dappier' ) : __( 'Save and Connect', 'dappier' );
 								submit_button( $button_text, 'primary', 'submit_two' );
+
+								// If error.
+								if ( is_wp_error( $details ) ) {
+									printf( '<p style="color:var(--color-error);">%s</p>', $details->get_error_message() );
+								}
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
@@ -402,6 +417,7 @@ class Dappier_Settings {
 
 					// Hidden fields.
 					settings_fields( 'dappier' );
+					printf( '<input type="hidden" name="status" value="%s">', $status );
 				echo '</form>';
 
 				// Sidebar.
@@ -417,17 +433,28 @@ class Dappier_Settings {
 
 									// If agent is selected.
 									if ( $aimodel_id ) {
+										// Build url to update API key.
+										$update_url = add_query_arg(
+											[
+												'status' => 'inactive',
+											],
+											admin_url( 'admin.php?page=dappier' )
+										);
+
 										printf( '<p><strong>%s</strong></p>', __( 'Congratulations! You have linked your Dappier account.', 'dappier' ) );
 										echo '<ul class="dappier-step__details">';
 										foreach ( $details as $key => $value ) {
 											printf( '<li><span>%s:</span> <span>%s</span></li>', $key, $value );
 										}
+										echo '</ul>';
+										echo '<ul>';
+											printf( '<li><a href="%s">> %s</a></li>', esc_url( $update_url ), __( 'Update API Key', 'dappier' ) );
+										echo '</ul>';
 									}
 									// No agent.
 									else {
 										printf( '<p>%s</p>', __( 'Please create or choose your AI agent to link your Dappier account.', 'dappier' ) );
 									}
-									echo '</ul>';
 								echo '</div>';
 							echo '</div>';
 						}
@@ -503,16 +530,22 @@ class Dappier_Settings {
 
 			// Check for errors.
 			if ( 200 !== $code ) {
-				$details = [];
+				$message = isset( $response['response']['message'] ) ? $response['response']['message'] : __( 'An error occurred while processing the request.', 'dappier' );
+				$details = new WP_Error( 'dappier_details_error', $code . ' ' . $message );
 			}
 			// No errors.
 			else {
 				// Decode the body.
-				$details = json_decode( $body, true );
-
-				// Set the transient.
-				set_transient( $transient, $details, MINUTE_IN_SECONDS * 5 );
+				$details = (array) json_decode( $body, true );
 			}
+
+			// Set the transient.
+			set_transient( $transient, $details, MINUTE_IN_SECONDS * 5 );
+		}
+
+		// Bail if no details or error.
+		if ( ! $details || is_wp_error( $details ) ) {
+			return $details;
 		}
 
 		// Map the details.
@@ -613,7 +646,7 @@ class Dappier_Settings {
 	}
 
 	/**
-	 * Updated the settings.
+	 * Delete transients and maybe create agent.
 	 *
 	 * @since 0.1.0
 	 *
@@ -623,7 +656,7 @@ class Dappier_Settings {
 	 *
 	 * @return void
 	 */
-	function update( $value, $old_value, $option ) {
+	function before_update_settings( $value, $old_value, $option ) {
 		// Bail if not our option.
 		if ( 'dappier' !== $option ) {
 			return $value;
@@ -753,6 +786,38 @@ class Dappier_Settings {
 	}
 
 	/**
+	 * Redirect to main settings page after API key change.
+	 * This entire hook won't fire if no options are changed.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array $old_value
+	 * @param array $new_value
+	 *
+	 * @return void
+	 */
+	function after_update_settings( $old_value, $new_value ) {
+		// Bail if no status is set.
+		if ( ! isset( $_POST['status'] ) || ! $_POST['status'] ) {
+			return;
+		}
+
+		// Bail if we don't have the API key.
+		if ( ! isset( $old_value['api_key'], $new_value['api_key'] ) ) {
+			return;
+		}
+
+		// Bail if the API key is the same.
+		if ( $old_value['api_key'] === $new_value['api_key'] ) {
+			return;
+		}
+
+		// Redirect to main settings page, without query params.
+		wp_safe_redirect( admin_url( 'admin.php?page=dappier' ) );
+		exit;
+	}
+
+	/**
 	 * Return the plugin action links.  This will only be called if the plugin is active.
 	 *
 	 * @since 0.1.0
@@ -765,7 +830,7 @@ class Dappier_Settings {
 	 * @return array associative array of plugin action links.
 	 */
 	function add_plugin_links( $actions, $plugin_file, $plugin_data, $context ) {
-		$settings = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-general.php?page=dappier' ) ), __( 'Settings', 'dappier' ) );
+		$settings = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=dappier' ) ), __( 'Settings', 'dappier' ) );
 		$actions  = [ 'settings' => $settings ] + $actions;
 
 		return $actions;
