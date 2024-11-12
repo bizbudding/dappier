@@ -64,6 +64,8 @@ class Dappier_Settings {
 			return;
 		}
 
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'wp-color-picker' );
 		wp_enqueue_style( 'dappier-settings', dappier_get_file_url( 'dappier-settings', 'css' ), [], DAPPIER_PLUGIN_VERSION );
 		wp_enqueue_script( 'dappier-settings', dappier_get_file_url( 'dappier-settings', 'js' ), [ 'jquery', 'wp-color-picker' ], DAPPIER_PLUGIN_VERSION, true );
 	}
