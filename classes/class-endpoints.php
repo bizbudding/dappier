@@ -204,8 +204,6 @@ class Dappier_Endpoints {
 	 * @return void
 	 */
 	function authenticate_request( $request ) {
-		return true;
-
 		// Get the headers
 		$headers = $request->get_headers();
 
@@ -215,30 +213,26 @@ class Dappier_Endpoints {
 			return new WP_Error( 'rest_forbidden', 'Authorization header missing.', [ 'status' => 403 ] );
 		}
 
-		// Extract the application password from the Authorization header.
-		$auth_header                = $headers['authorization'];
-		list( $type, $credentials ) = explode( ' ', reset( $auth_header ), 2 );
+		// Extract the Bearer token from the Authorization header.
+		$auth_header = $headers['authorization'];
+		list( $type, $token ) = explode( ' ', reset( $auth_header ), 2 );
 
-		// Basic Authentication should start with 'Basic'
-		if ( 'Basic' !== $type ) {
-			return new WP_Error( 'rest_forbidden', 'Invalid authentication method.', [ 'status' => 403 ] );
+		// Bearer token should start with 'Bearer'.
+		if ( 'Bearer' !== $type ) {
+			return new WP_Error( 'rest_forbidden', 'Invalid authentication method. Use Bearer token.', [ 'status' => 403 ] );
 		}
 
-		// Decode the credentials
-		$decoded_credentials         = base64_decode( $credentials );
-		list( $username, $password ) = explode( ':', $decoded_credentials, 2 );
+		// Get API key.
+		$api_key = dappier_get_option( 'api_key' );
 
-		// Validate the application password
-		if ( ! $username || ! $password ) {
-			return new WP_Error( 'rest_forbidden', 'Invalid credentials.', [ 'status' => 403 ] );
+		// Bail if no API key.
+		if ( ! $api_key ) {
+			return new WP_Error( 'rest_forbidden', 'API key is missing.', [ 'status' => 403 ] );
 		}
 
-		// Authenticate the user
-		$this->user = wp_authenticate_application_password( $username, $password );
-
-		// If the authentication failed.
-		if ( is_wp_error( $this->user ) ) {
-			return new WP_Error( 'rest_forbidden', 'Invalid application password.', [ 'status' => 403 ] );
+		// Bail if token does not match the API key.
+		if ( $token !== $api_key ) {
+			return new WP_Error( 'rest_forbidden', 'Invalid API key.', [ 'status' => 403 ] );
 		}
 
 		return true;
