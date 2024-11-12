@@ -4,7 +4,7 @@
  * Plugin Name:     Dappier for WordPress
  * Plugin URI:      https://dappier.com/
  * Description:     Integrate Dappier AI on your WordPress site.
- * Version:         0.2.0
+ * Version:         0.3.0
  *
  * Author:          Dappier
  * Author URI:      https://dappier.com
