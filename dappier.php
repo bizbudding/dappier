@@ -92,7 +92,7 @@ final class Dappier_Plugin {
 	private function setup_constants() {
 		// Plugin version.
 		if ( ! defined( 'DAPPIER_PLUGIN_VERSION' ) ) {
-			define( 'DAPPIER_PLUGIN_VERSION', '0.2.0' );
+			define( 'DAPPIER_PLUGIN_VERSION', '0.3.0' );
 		}
 
 		// Plugin Folder Path.
