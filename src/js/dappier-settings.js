@@ -21,3 +21,9 @@ document.getElementById('aimodel_id').addEventListener('change', function() {
 		agentPersona.style.display = 'none';
 	}
 });
+
+const colorFields = document.querySelectorAll( '.dappier-color-picker' );
+
+colorFields.forEach(field => {
+	jQuery(field).wpColorPicker();
+});

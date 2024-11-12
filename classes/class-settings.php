@@ -65,7 +65,7 @@ class Dappier_Settings {
 		}
 
 		wp_enqueue_style( 'dappier-settings', dappier_get_file_url( 'dappier-settings', 'css' ), [], DAPPIER_PLUGIN_VERSION );
-		wp_enqueue_script( 'dappier-settings', dappier_get_file_url( 'dappier-settings', 'js' ), [], DAPPIER_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'dappier-settings', dappier_get_file_url( 'dappier-settings', 'js' ), [ 'jquery', 'wp-color-picker' ], DAPPIER_PLUGIN_VERSION, true );
 	}
 
 	/**
@@ -98,7 +98,6 @@ class Dappier_Settings {
 		// Agent Name.
 		add_settings_field(
 			'aimodel_id', // id
-			// __( 'Name', 'dappier' ), // title
 			'', // title
 			[ $this, 'aimodel_id_callback' ], // callback
 			'dappier', // page
@@ -108,7 +107,6 @@ class Dappier_Settings {
 		// Agent Name.
 		add_settings_field(
 			'agent_name', // id
-			// __( 'Name', 'dappier' ), // title
 			'', // title
 			[ $this, 'agent_name_callback' ], // callback
 			'dappier', // page
@@ -118,7 +116,6 @@ class Dappier_Settings {
 		// Agent Description.
 		add_settings_field(
 			'agent_desc', // id
-			// __( 'Description', 'dappier' ), // title
 			'', // title
 			[ $this, 'agent_desc_callback' ], // callback
 			'dappier', // page
@@ -128,11 +125,46 @@ class Dappier_Settings {
 		// Agent Description.
 		add_settings_field(
 			'agent_persona', // id
-			// __( 'Persona', 'dappier' ), // title
 			'', // title
 			[ $this, 'agent_persona_callback' ], // callback
 			'dappier', // page
 			'dappier_three' // section
+		);
+
+		// Module Location.
+		add_settings_field(
+			'module_location', // id
+			'', // title
+			[ $this, 'module_location_callback' ], // callback
+			'dappier', // page
+			'dappier_four' // section
+		);
+
+		// Module Background Color.
+		add_settings_field(
+			'module_bg_color', // id
+			'', // title
+			[ $this, 'module_bg_color_callback' ], // callback
+			'dappier', // page
+			'dappier_four' // section
+		);
+
+		// Module Text Color.
+		add_settings_field(
+			'module_fg_color', // id
+			'', // title
+			[ $this, 'module_fg_color_callback' ], // callback
+			'dappier', // page
+			'dappier_four' // section
+		);
+
+		// Module Theme Color.
+		add_settings_field(
+			'module_theme_color', // id
+			'', // title
+			[ $this, 'module_theme_color_callback' ], // callback
+			'dappier', // page
+			'dappier_four' // section
 		);
 	}
 
@@ -145,12 +177,16 @@ class Dappier_Settings {
 	 */
 	function sanitize( $input ) {
 		$allowed = [
-			'api_key'       => 'sanitize_text_field',
-			'aimodel_id'    => 'sanitize_text_field',
-			'datamodel_id'  => 'sanitize_text_field',
-			'agent_name'    => 'sanitize_text_field',
-			'agent_desc'    => 'sanitize_textarea_field',
-			'agent_persona' => 'sanitize_textarea_field',
+			'api_key'            => 'sanitize_text_field',
+			'aimodel_id'         => 'sanitize_text_field',
+			'datamodel_id'       => 'sanitize_text_field',
+			'agent_name'         => 'sanitize_text_field',
+			'agent_desc'         => 'sanitize_textarea_field',
+			'agent_persona'      => 'sanitize_textarea_field',
+			'module_location'    => 'sanitize_text_field',
+			'module_bg_color'    => 'sanitize_text_field',
+			'module_fg_color'    => 'sanitize_text_field',
+			'module_theme_color' => 'sanitize_text_field',
 		];
 
 		// Get an array of matching keys from $input.
@@ -279,6 +315,88 @@ class Dappier_Settings {
 	}
 
 	/**
+	 * Setting callback.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	function module_location_callback() {
+		$value = dappier_get_option( 'module_location' );
+
+		echo '<div class="dappier-step__field">';
+			printf( '<label class="dappier-step__label" for="dappier[module_location]">%s</label>', __( 'Module Location', 'dappier' ) );
+			printf( '<p class="dappier-step__desc">%s</p>', __( 'Select where you would like the AI module to appear on your site. Use [dappier_module] shortcode to manually display the module.', 'dappier' ) );
+
+			echo '<select class="dappier-step__input" name="dappier[module_location]" id="module_location">';
+				$options = [
+					''       => __( 'Disabled', 'dappier' ),
+					'before' => __( 'Before Post Content', 'dappier' ),
+					'after'  => __( 'After Post Content', 'dappier' ),
+				];
+
+				foreach ( $options as $key => $label ) {
+					$selected = $value === $key ? ' selected' : '';
+					printf( '<option value="%s"%s>%s</option>', $key, $selected, $label );
+				}
+			echo '</select>';
+		echo '</div>';
+	}
+
+	/**
+	 * Setting callback.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	function module_bg_color_callback() {
+		$value = dappier_get_option( 'module_bg_color' );
+		$value = ! is_null( $value ) ? $value : '#f8f9fa';
+
+		echo '<div class="dappier-step__field">';
+			printf( '<label class="dappier-step__label" for="dappier[module_bg_color]">%s</label>', __( 'Module Background Color', 'dappier' ) );
+			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the background color for the AI module.', 'dappier' ) );
+			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[module_bg_color]" id="module_bg_color" value="%s">', $value );
+		echo '</div>';
+	}
+
+	/**
+	 * Setting callback.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	function module_fg_color_callback() {
+		$value = dappier_get_option( 'module_fg_color' );
+
+		echo '<div class="dappier-step__field">';
+			printf( '<label class="dappier-step__label" for="dappier[module_fg_color]">%s</label>', __( 'Module Text Color', 'dappier' ) );
+			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the text color for the AI module.', 'dappier' ) );
+			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[module_fg_color]" id="module_fg_color" value="%s">', $value );
+		echo '</div>';
+	}
+
+	/**
+	 * Setting callback.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	function module_theme_color_callback() {
+		$value = dappier_get_option( 'module_theme_color' );
+		$value = ! is_null( $value ) ? $value : '#674ad9';
+
+		echo '<div class="dappier-step__field">';
+			printf( '<label class="dappier-step__label" for="dappier[module_theme_color]">%s</label>', __( 'Module Theme Color', 'dappier' ) );
+			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the theme color for the AI module.', 'dappier' ) );
+			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[module_theme_color]" id="module_theme_color" value="%s">', $value );
+		echo '</div>';
+	}
+
+	/**
 	 * Adds setting page content.
 	 *
 	 * @since 0.1.0
@@ -385,6 +503,7 @@ class Dappier_Settings {
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
+								printf( '<div class="dappier-callout">%s</div>', __( 'We\'ll securely generate a private AI model, stored in a multi-tenant system. This model will power the Ask AI chatbot and AI-powered recommendations on your site.', 'dappier' ) );
 								do_settings_fields( 'dappier', 'dappier_three');
 								$button_text = $aimodel_id ? __( 'Update Agent', 'dappier' ) : __( 'Save Agent', 'dappier' );
 								submit_button( $button_text, 'primary', 'submit_three' );
@@ -399,7 +518,9 @@ class Dappier_Settings {
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
-								printf( '<p><a href="%s" class="button button-primary">%s</a></p>', '#', __( 'Configure Site', 'dappier' ) );
+								// printf( '<p><a href="%s" class="button button-primary">%s</a></p>', '#', __( 'Configure Site', 'dappier' ) );
+								do_settings_fields( 'dappier', 'dappier_four');
+								submit_button( __( 'Update Settings', 'dappier' ), 'primary', 'submit_four' );
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
@@ -410,7 +531,12 @@ class Dappier_Settings {
 							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 3 | Opt into Dappier Marketplace to syndicate & earn money for your content', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Join our marketplace to earn money as your content is discovered and accessed by AI developers and LLMs that will compensate you on a pay-per-query (question) basis.', 'dappier' ) );
-								printf( '<p><a href="%s" class="button button-primary">%s</a></p>', '#', __( 'Publish your data to Dappier\'s marketplace', 'dappier' ) );
+								printf( '<p><a href="https://docs.dappier.com/publish-and-monetize">%s</a></p>', __( 'Learn More', 'dappier' ) );
+								if ( $aimodel_id ) {
+									printf( '<p><a href="https://platform.dappier.com/my-ai-config/%s?tab=datamodel" class="button button-primary">%s</a></p>', $aimodel_id, __( 'Publish your data to Dappier\'s marketplace', 'dappier' ) );
+								} else {
+									printf( '<p><button class="button button-primary" disabled>%s</button></p>', __( 'Please create or choose your AI Agent', 'dappier' ) );
+								}
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
@@ -430,31 +556,32 @@ class Dappier_Settings {
 							echo '<div class="dappier-step__inner">';
 								printf( '<h2 class="dappier-heading">%s</h2>', __( 'My Account', 'dappier' ) );
 								echo '<div class="dappier-step__content">';
-
 									// If agent is selected.
 									if ( $aimodel_id ) {
-										// Build url to update API key.
-										$update_url = add_query_arg(
-											[
-												'status' => 'inactive',
-											],
-											admin_url( 'admin.php?page=dappier' )
-										);
-
 										printf( '<p><strong>%s</strong></p>', __( 'Congratulations! You have linked your Dappier account.', 'dappier' ) );
 										echo '<ul class="dappier-step__details">';
 										foreach ( $details as $key => $value ) {
 											printf( '<li><span>%s:</span> <span>%s</span></li>', $key, $value );
 										}
 										echo '</ul>';
-										echo '<ul>';
-											printf( '<li><a href="%s">> %s</a></li>', esc_url( $update_url ), __( 'Update API Key', 'dappier' ) );
-										echo '</ul>';
 									}
 									// No agent.
 									else {
 										printf( '<p>%s</p>', __( 'Please create or choose your AI agent to link your Dappier account.', 'dappier' ) );
 									}
+
+									// Build url to update API key.
+									$update_url = add_query_arg(
+										[
+											'status' => 'inactive',
+										],
+										admin_url( 'admin.php?page=dappier' )
+									);
+
+									// Update API Key.
+									echo '<ul>';
+										printf( '<li><a href="%s">> %s</a></li>', esc_url( $update_url ), __( 'Update API Key', 'dappier' ) );
+									echo '</ul>';
 								echo '</div>';
 							echo '</div>';
 						}
