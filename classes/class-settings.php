@@ -182,6 +182,7 @@ class Dappier_Settings {
 			'api_key'            => 'sanitize_text_field',
 			'aimodel_id'         => 'sanitize_text_field',
 			'datamodel_id'       => 'sanitize_text_field',
+			'widget_id'          => 'sanitize_text_field',
 			'agent_name'         => 'sanitize_text_field',
 			'agent_desc'         => 'sanitize_textarea_field',
 			'agent_persona'      => 'sanitize_textarea_field',
@@ -680,6 +681,7 @@ class Dappier_Settings {
 		// Map the details.
 		$map = [
 			'account_id'           => [ 'label' => __( 'Account ID', 'dappier' ), 'sanitize' => 'sanitize_key' ],
+			'widget_id'            => [ 'label' => __( 'Widget ID', 'dappier' ), 'sanitize' => 'sanitize_key' ],
 			'email'                => [ 'label' => __( 'Email', 'dappier' ), 'sanitize' => 'sanitize_email' ],
 			'name'                 => [ 'label' => __( 'Name', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
 			'subscription_level'   => [ 'label' => __( 'Subscription', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
@@ -855,6 +857,10 @@ class Dappier_Settings {
 
 			if ( isset( $agent['datamodel_id'] ) ) {
 				$value['datamodel_id'] = $agent['datamodel_id'];
+			}
+
+			if ( isset( $agent['widget_id'] ) ) {
+				$value['widget_id'] = $agent['widget_id'];
 			}
 		}
 

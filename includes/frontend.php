@@ -18,14 +18,16 @@ function dappier_enqueue_scripts() {
 	// Get plugin options.
 	$api_key    = dappier_get_option( 'api_key' );
 	$aimodel_id = dappier_get_option( 'aimodel_id' );
-	// $aimodel_id = '66fd67f552c021d02d45432f'; // Testing.
+	$widget_id  = dappier_get_option( 'widget_id' );
 
 	// Bail missing data.
-	if ( ! ( $api_key && $aimodel_id ) ) {
+	if ( ! ( $api_key && $aimodel_id && $widget_id ) ) {
 		return;
 	}
 
-	wp_enqueue_script( 'dappier-loader', 'https://assets.dappier.com/widget/dappier-loader.min.js', [], DAPPIER_PLUGIN_VERSION, [] );
+	// printf( '<script src="https://assets.dappier.com/widget/dappier-loader.min.js" widget-id="%s" ></script>', $widget_id );
+	// wp_enqueue_script( 'dappier-loader', 'https://assets.dappier.com/widget/dappier-loader.min.js', [], DAPPIER_PLUGIN_VERSION, [] );
+	wp_enqueue_script( 'dappier-loader', 'https://assets.dappier.com/widget/dappier-loader.min.js', [], null, [] );
 }
 
 add_filter( 'script_loader_tag', 'dappier_add_script_attributes', 10, 2 );
@@ -44,13 +46,21 @@ function dappier_add_script_attributes( $tag, $handle ) {
 		return $tag;
 	}
 
+	// Get widget ID.
+	$widget_id = dappier_get_option( 'widget_id' );
+
+	// Bail if no widget ID.
+	if ( ! $widget_id ) {
+		return $tag;
+	}
+
 	// Set up tag processor.
 	$tags = new WP_HTML_Tag_Processor( $tag );
 
 	// Loop through tags.
 	while ( $tags->next_tag( [ 'tag_name' => 'script' ] ) ) {
-		$tags->set_attribute( 'widget-id', 'wd_01jce6qwhcee2trm800m0h30yz' );
-		$tags->set_attribute( 'env', 'dev' );
+		$tags->set_attribute( 'widget-id', esc_attr( $widget_id ) );
+		// $tags->set_attribute( 'env', 'dev' );
 	}
 
 	// Get updated tag.
@@ -84,7 +94,7 @@ function dappier_add_module( $content ) {
 	$location   = dappier_get_option( 'module_location' );
 	$api_key    = dappier_get_option( 'api_key' );
 	$aimodel_id = dappier_get_option( 'aimodel_id' );
-	// $aimodel_id = '66fd67f552c021d02d45432f'; // Testing.
+	$widget_id  = dappier_get_option( 'widget_id' );
 
 	// Bail if not a valid location.
 	if ( ! in_array( $location, [ 'before', 'after' ], true ) ) {
@@ -92,11 +102,13 @@ function dappier_add_module( $content ) {
 	}
 
 	// Bail missing data.
-	if ( ! ( $api_key && $aimodel_id ) ) {
+	if ( ! ( $api_key && $aimodel_id && $widget_id ) ) {
 		return $content;
 	}
 
 	// Get settings.
+	$title       = __( 'Ask AI', 'dappier' );
+	$widget_id   = $widget_id;
 	$bg_color    = dappier_get_option( 'module_bg_color' );
 	$bg_color    = is_null( $bg_color ) ? '#f8f9fa' : $bg_color;
 	$bg_color    = $bg_color ?: 'inherit';
@@ -108,7 +120,7 @@ function dappier_add_module( $content ) {
 
 	// Add the module.
 	$html = sprintf( '<dappier-ask-ai-widget
-	  widgetId="wd_01jce6qwhcee2trm800m0h30yz"
+	  widgetId="%s"
 	  title="%s"
 	  mainBackgroundColor="%s"
 	  mainTextColor="%s"
@@ -122,10 +134,11 @@ function dappier_add_module( $content ) {
 	  showAttributionLinks="true"
 	  enableSiteName="false"
 	  enableTitle="false" />',
-		__( 'Ask AI', 'dappier' ),
-		$bg_color,
-		$fg_color,
-		$theme_color
+		esc_attr( $widget_id ),
+		esc_attr( $title ),
+		esc_attr( $bg_color ),
+		esc_attr( $fg_color ),
+		esc_attr( $theme_color )
 	);
 
 	// If before.
