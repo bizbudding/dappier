@@ -823,6 +823,39 @@ class Dappier_Settings {
 		$desc       = isset( $value['agent_desc'] ) ? $value['agent_desc'] : '';
 		$pers       = isset( $value['agent_persona'] ) ? $value['agent_persona'] : '';
 
+		// START TEMPORARY LOGIC.
+		$widget_id = isset( $value['widget_id'] ) ? $value['widget_id'] : '';
+
+		// If no widget ID and we have an API key and and AI model ID.
+		if ( ! $widget_id && $api_key && $aimodel_id ) {
+			// Set up the API url and body.
+			$url = 'https://api.dappier.com/v1/integrations/agent/' . $aimodel_id;
+
+			// Set up the request arguments.
+			$args = [
+				'headers' => [
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bearer ' . $api_key,
+				],
+			];
+
+			// Make the request.
+			$response = wp_remote_get( $url, $args );
+			$code     = wp_remote_retrieve_response_code( $response );
+
+			// Check for errors.
+			if ( 200 !== $code ) {
+				$body = wp_remote_retrieve_body( $response );
+				$body = json_decode( $body, true );
+
+				if ( $body && isset( $body['widget_id'] ) ) {
+					$value['widget_id'] = $body['widget_id'];
+				}
+			}
+		}
+
+		// END TEMP
+
 		// Unset the agent data.
 		unset( $value['agent_name'], $value['agent_desc'], $value['agent_persona'] );
 
