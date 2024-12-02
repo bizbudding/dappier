@@ -742,7 +742,7 @@ class Dappier_Settings {
 		// Check for transient.
 		if ( false === ( $body = get_transient( $transient ) ) ) {
 			// Set up the API url and body.
-			$url  = 'https://api.dappier.com/v1/integrations/agent?type=rss';
+			$url  = 'https://api.dappier.com/v1/integrations/agent?type=wordpress';
 			$args = [
 				'headers' => [
 					'Authorization' => 'Bearer ' . $api_key,
@@ -825,32 +825,32 @@ class Dappier_Settings {
 
 		// TEMPORARY LOGIC.
 
-		if ( $aimodel_id ) {
-			// Set up the API url and body.
-			$url = 'https://api.dappier.com/v1/integrations/agent/' . $aimodel_id;
+		// if ( $aimodel_id ) {
+		// 	// Set up the API url and body.
+		// 	$url = 'https://api.dappier.com/v1/integrations/agent/' . $aimodel_id;
 
-			// Set up the request arguments.
-			$args = [
-				'headers' => [
-					'Content-Type'  => 'application/json',
-					'Authorization' => 'Bearer ' . $api_key,
-				],
-			];
+		// 	// Set up the request arguments.
+		// 	$args = [
+		// 		'headers' => [
+		// 			'Content-Type'  => 'application/json',
+		// 			'Authorization' => 'Bearer ' . $api_key,
+		// 		],
+		// 	];
 
-			// Make the request.
-			$response = wp_remote_get( $url, $args );
-			$code     = wp_remote_retrieve_response_code( $response );
+		// 	// Make the request.
+		// 	$response = wp_remote_get( $url, $args );
+		// 	$code     = wp_remote_retrieve_response_code( $response );
 
-			// Check for errors.
-			if ( 200 === $code ) {
-				$body = wp_remote_retrieve_body( $response );
-				$body = json_decode( $body, true );
+		// 	// Check for errors.
+		// 	if ( 200 === $code ) {
+		// 		$body = wp_remote_retrieve_body( $response );
+		// 		$body = json_decode( $body, true );
 
-				if ( $body && isset( $body['widget_id'] ) ) {
-					$value['widget_id'] = $body['widget_id'];
-				}
-			}
-		}
+		// 		if ( $body && isset( $body['widget_id'] ) ) {
+		// 			$value['widget_id'] = $body['widget_id'];
+		// 		}
+		// 	}
+		// }
 
 		// END TEMP
 
@@ -914,7 +914,7 @@ class Dappier_Settings {
 			'name'           => $data['name'],
 			'description'    => $data['desc'],
 			'persona'        => $data['persona'],
-			'type'           => 'rss', // TODO: What should this be for our REST API endpoint?
+			'type'           => 'wordpress',
 			'feed_url'       => home_url( '/wp-json/dappier/v1/posts' ),
 			'prompt_samples' => [],
 		];
