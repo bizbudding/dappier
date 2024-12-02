@@ -267,7 +267,7 @@ class Dappier_Settings {
 		$value = ! $this->get_agents() ? get_bloginfo( 'name' ) : $value;
 
 		echo '<div style="display:none;" class="dappier-step__field agent_name">';
-			printf( '<label class="dappier-step__label" for="dappier[agent_name]">%s</label>', __( 'Name', 'dappier' ) );
+			printf( '<label class="dappier-step__label" for="dappier[agent_name]">%s</label>', __( 'Name (required)', 'dappier' ) );
 			printf( '<p class="dappier-step__desc">%s</p>', __( 'Give your AI agent a name.', 'dappier' ) );
 			printf( '<input class="dappier-step__input" type="text" name="dappier[agent_name]" id="agent_name" placeholder="%s" value="%s">',
 				get_bloginfo( 'name' ),
@@ -288,7 +288,7 @@ class Dappier_Settings {
 		$value = ! $this->get_agents() ? get_bloginfo( 'description' ) : $value;
 
 		echo '<div style="display:none;" class="dappier-step__field agent_desc">';
-			printf( '<label class="dappier-step__label" for="dappier[agent_desc]">%s</label>', __( 'Description', 'dappier' ) );
+			printf( '<label class="dappier-step__label" for="dappier[agent_desc]">%s</label>', __( 'Description (required)', 'dappier' ) );
 			printf( '<p class="dappier-step__desc">%s</p>', __( 'Add a short description of what this AI Agent can do.', 'dappier' ) );
 			printf( '<textarea id="agent_desc" class="dappier-step__input" name="dappier[agent_desc]" rows="3" placeholder="%s">%s</textarea>',
 				__( 'You are a helpful guide on all the latest tech startup and technology news', 'dappier' ),
@@ -308,7 +308,7 @@ class Dappier_Settings {
 		$value = dappier_get_option( 'agent_persona' );
 
 		echo '<div style="display:none;" class="dappier-step__field agent_persona">';
-			printf( '<label class="dappier-step__label" for="dappier[agent_persona]">%s</label>', __( 'Persona', 'dappier' ) );
+			printf( '<label class="dappier-step__label" for="dappier[agent_persona]">%s</label>', __( 'Persona (required)', 'dappier' ) );
 			printf( '<p class="dappier-step__desc">%s</p>', __( 'How should this AI Agent answer questions? What does it do? What should it not do?', 'dappier' ) );
 			printf( '<textarea class="dappier-step__input" name="dappier[agent_persona]" id="agent_persona" rows="3" placeholder="%s">%s</textarea>',
 				__( 'Use the available content sources and respond in a friendly manner.', 'dappier' ),
@@ -633,7 +633,6 @@ class Dappier_Settings {
 		$details    = [];
 		$api_key    = dappier_get_option( 'api_key' );
 		$aimodel_id = dappier_get_option( 'aimodel_id' );
-		// $aimodel_id = '66fd67f552c021d02d45432f'; // Testing.
 
 		// Bail missing data.
 		if ( ! ( $api_key && $aimodel_id ) ) {
