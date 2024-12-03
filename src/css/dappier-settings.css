@@ -187,12 +187,15 @@ textarea:focus-visible {
 	}
 }
 
+.dappier-form,
+.dappier-inner__sidebar {
+	margin-top: 36px;
+}
+
 .dappier-form {
 	display: grid;
 	gap: 24px;
 }
-
-.dappier-form:has()
 
 .dappier-preheading {
 	margin-bottom: 8px;

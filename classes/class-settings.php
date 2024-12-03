@@ -439,6 +439,12 @@ class Dappier_Settings {
 				echo '</div>';
 			echo '</div>';
 
+			// Add heading. This is necessary because WP's JS moves notices after the first h2.
+			printf( '<h2>%s</h2>', __( 'Dappier Plugin Settings', 'dappier' ) );
+
+			// Display settings notices here.
+			settings_errors();
+
 			/**
 			 * TEMP:
 			 * @link https://app.visily.ai/projects/c10889df-54a3-4691-a3e0-cf551acd0183/boards/882115
@@ -461,7 +467,7 @@ class Dappier_Settings {
 					// Step 1.
 					echo '<div class="dappier-step dappier-step__one">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 1 | Create a Dappier Account', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 1 | Create a Dappier Account', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'By creating a free Dappier account, you will be able to:', 'dappier' ) );
 
@@ -482,7 +488,7 @@ class Dappier_Settings {
 					// Step 2.
 					echo '<div class="dappier-step dappier-step__two">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 2 | Activate your account with your API key', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 2 | Activate your account with your API key', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Once you have created a Dappier account, activate this plugin to connect your site to Dappier and create an AI Agent.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'To activate your plugin, enter your API Access key.', 'dappier' ) );
@@ -502,7 +508,7 @@ class Dappier_Settings {
 					// Step 3.
 					echo '<div class="dappier-step dappier-step__three">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 1 | Create or choose your default AI Agent', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 1 | Create or choose your default AI Agent', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
@@ -517,7 +523,7 @@ class Dappier_Settings {
 					// Step 4.
 					echo '<div class="dappier-step dappier-step__four">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 2 | Configure your site', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 2 | Configure your site', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
@@ -531,7 +537,7 @@ class Dappier_Settings {
 					// Step 5.
 					echo '<div class="dappier-step dappier-step__five">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Step 3 | Opt into Dappier Marketplace to syndicate & earn money for your content', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 3 | Opt into Dappier Marketplace to syndicate & earn money for your content', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Join our marketplace to earn money as your content is discovered and accessed by AI developers and LLMs that will compensate you on a pay-per-query (question) basis.', 'dappier' ) );
 								printf( '<p><a href="https://docs.dappier.com/publish-and-monetize">%s</a></p>', __( 'Learn More', 'dappier' ) );
@@ -557,7 +563,7 @@ class Dappier_Settings {
 						if ( $active ) {
 							// My Account.
 							echo '<div class="dappier-step__inner">';
-								printf( '<h2 class="dappier-heading">%s</h2>', __( 'My Account', 'dappier' ) );
+								printf( '<h3 class="dappier-heading">%s</h3>', __( 'My Account', 'dappier' ) );
 								echo '<div class="dappier-step__content">';
 									// If agent is selected.
 									if ( $aimodel_id ) {
@@ -591,7 +597,7 @@ class Dappier_Settings {
 
 						// About Dappier.
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'About Dappier', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'About Dappier', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Dappier is a platform that helps you engage your audience and monetize your content through AI-powered tools.', 'dappier' ) );
 								echo '<ul>';
@@ -604,7 +610,7 @@ class Dappier_Settings {
 
 						// Need Help?
 						echo '<div class="dappier-step__inner">';
-							printf( '<h2 class="dappier-heading">%s</h2>', __( 'Need Help?', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Need Help?', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Do you need assistance or more details?', 'dappier' ) );
 								echo '<ul>';
