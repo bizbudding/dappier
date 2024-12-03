@@ -1,12 +1,12 @@
 document.addEventListener( 'DOMContentLoaded', function() {
 	const aiModel           = document.getElementById('aimodel_id');
-	const agentName         = document.getElementById('agent_name');
-	const agentDesc         = document.getElementById('agent_desc');
-	const agentPersona      = document.getElementById('agent_persona');
-	const agentNameInput    = agentName.querySelector('input');
-	const agentDescInput    = agentDesc.querySelector('input');
-	const agentPersonaInput = agentPersona.querySelector('input');
-	const colorFields       = document.querySelectorAll( '.dappier-color-picker' );
+	const agentName         = document.querySelector('.agent_name');
+	const agentDesc         = document.querySelector('.agent_desc');
+	const agentPersona      = document.querySelector('.agent_persona');
+	const agentNameInput    = document.getElementById('agent_name');
+	const agentDescInput    = document.getElementById('agent_desc');
+	const agentPersonaInput = document.getElementById('agent_persona');
+	const colorFields       = document.querySelectorAll('.dappier-color-picker');
 
 	// If no agents exist, the default is to create. Show fields and set as required.
 	if ( '_create_agent' === aiModel.value ) {
