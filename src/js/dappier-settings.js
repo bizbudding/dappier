@@ -1,8 +1,8 @@
 document.addEventListener( 'DOMContentLoaded', function() {
 	const aiModel           = document.getElementById('aimodel_id');
-	const agentName         = document.querySelector('.agent_name');
-	const agentDesc         = document.querySelector('.agent_desc');
-	const agentPersona      = document.querySelector('.agent_persona');
+	const agentName         = document.getElementById('agent_name');
+	const agentDesc         = document.getElementById('agent_desc');
+	const agentPersona      = document.getElementById('agent_persona');
 	const agentNameInput    = agentName.querySelector('input');
 	const agentDescInput    = agentDesc.querySelector('input');
 	const agentPersonaInput = agentPersona.querySelector('input');
