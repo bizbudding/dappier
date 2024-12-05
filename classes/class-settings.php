@@ -508,7 +508,7 @@ class Dappier_Settings {
 					// Step 3.
 					echo '<div class="dappier-step dappier-step__three">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 1 | Create or choose your default AI Agent', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Create or choose your default AI Agent', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
@@ -523,7 +523,7 @@ class Dappier_Settings {
 					// Step 4.
 					echo '<div class="dappier-step dappier-step__four">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 2 | Configure your site', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Configure your site', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'To get started, create or link an existing AI agent with your content.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'Follow the steps below. The setup only takes a few minutes.', 'dappier' ) );
@@ -537,7 +537,7 @@ class Dappier_Settings {
 					// Step 5.
 					echo '<div class="dappier-step dappier-step__five">';
 						echo '<div class="dappier-step__inner">';
-							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Step 3 | Opt into Dappier Marketplace to syndicate & earn money for your content', 'dappier' ) );
+							printf( '<h3 class="dappier-heading">%s</h3>', __( 'Opt into Dappier Marketplace to syndicate & earn money for your content', 'dappier' ) );
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Join our marketplace to earn money as your content is discovered and accessed by AI developers and LLMs that will compensate you on a pay-per-query (question) basis.', 'dappier' ) );
 								printf( '<p><a href="https://docs.dappier.com/publish-and-monetize">%s</a></p>', __( 'Learn More', 'dappier' ) );
