@@ -778,6 +778,28 @@ class Dappier_Settings {
 			set_transient( $transient, $body, MINUTE_IN_SECONDS * 5 );
 		}
 
+		// If we have agents.
+		if ( $body ) {
+			// Get domains.
+			$site_host = wp_parse_url( home_url(), PHP_URL_HOST );
+
+			// Loop and unset if not the same domain.
+			foreach ( $body as $index => $agent ) {
+				$feed_url  = isset( $agent['feed_url'] ) ? $agent['feed_url'] : null;
+				$feed_host = $feed_url ? wp_parse_url( $feed_url, PHP_URL_HOST ) : null;
+
+				// Skip if no feed host.
+				if ( ! $feed_host ) {
+					continue;
+				}
+
+				// Unset if not the same.
+				if ( $feed_host !== $site_host ) {
+					unset( $body[ $index ] );
+				}
+			}
+		}
+
 		return $body;
 	}
 
