@@ -222,17 +222,17 @@ class Dappier_Endpoints {
 			return new WP_Error( 'rest_forbidden', 'Invalid authentication method. Use Bearer token.', [ 'status' => 403 ] );
 		}
 
-		// Get API key.
-		$api_key = dappier_get_option( 'api_key' );
+		// Get Data Model ID key.
+		$datamodel_id = dappier_get_option( 'datamodel_id' );
 
 		// Bail if no API key.
-		if ( ! $api_key ) {
-			return new WP_Error( 'rest_forbidden', 'API key is missing.', [ 'status' => 403 ] );
+		if ( ! $datamodel_id ) {
+			return new WP_Error( 'rest_forbidden', 'Data Model API key is missing.', [ 'status' => 403 ] );
 		}
 
 		// Bail if token does not match the API key.
-		if ( $token !== $api_key ) {
-			return new WP_Error( 'rest_forbidden', 'Invalid API key.', [ 'status' => 403 ] );
+		if ( $token !== $datamodel_id ) {
+			return new WP_Error( 'rest_forbidden', 'Token Mismatch.', [ 'status' => 403 ] );
 		}
 
 		return true;

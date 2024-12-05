@@ -492,7 +492,7 @@ class Dappier_Settings {
 							echo '<div class="dappier-step__content">';
 								printf( '<p>%s</p>', __( 'Once you have created a Dappier account, activate this plugin to connect your site to Dappier and create an AI Agent.', 'dappier' ) );
 								printf( '<p>%s</p>', __( 'To activate your plugin, enter your API Access key.', 'dappier' ) );
-								printf( '<p><a href="https://dappier.com" target="_blank" rel="noopener">%s</a></p>', __( 'Click here to get your API Key', 'dappier' ) );
+								printf( '<p><a href="https://platform.dappier.com/profile/api-keys" target="_blank" rel="noopener">%s</a></p>', __( 'Click here to get your API Key', 'dappier' ) );
 								do_settings_fields( 'dappier', 'dappier_two');
 								$button_text = $api_key ? __( 'Update API Key', 'dappier' ) : __( 'Save and Connect', 'dappier' );
 								submit_button( $button_text, 'primary', 'submit_two' );
