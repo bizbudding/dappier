@@ -106,6 +106,15 @@ class Dappier_Settings {
 			'dappier_three' // section
 		);
 
+		// Agent Widget ID.
+		add_settings_field(
+			'widget_id', // id
+			'', // title
+			[ $this, 'widget_id_callback' ], // callback
+			'dappier', // page
+			'dappier_three' // section
+		);
+
 		// Agent Name.
 		add_settings_field(
 			'agent_name', // id
@@ -253,6 +262,19 @@ class Dappier_Settings {
 				echo '<option value="_create_agent">Create a new Agent</option>';
 			echo '</select>';
 		echo '</div>';
+	}
+
+	/**
+	 * Setting callback.
+	 *
+	 * @since 0.5.2
+	 *
+	 * @return void
+	 */
+	function widget_id_callback() {
+		$widget_id = dappier_get_option( 'widget_id' );
+
+		printf( '<input type="hidden" name="dappier[widget_id]" id="widget_id" value="%s">', esc_attr( $widget_id ) );
 	}
 
 	/**
@@ -850,36 +872,39 @@ class Dappier_Settings {
 		$desc       = isset( $value['agent_desc'] ) ? $value['agent_desc'] : '';
 		$pers       = isset( $value['agent_persona'] ) ? $value['agent_persona'] : '';
 
-		// TEMPORARY LOGIC.
+		// If we have a model, and it's not creating a new one.
+		if ( $aimodel_id && '_create_agent' !== $aimodel_id ) {
+			$old_widget_id = isset( $old_value['widget_id'] ) ? $old_value['widget_id'] : '';
+			$new_widget_id = isset( $value['widget_id'] ) ? $value['widget_id'] : '';
 
-		// if ( $aimodel_id ) {
-		// 	// Set up the API url and body.
-		// 	$url = 'https://api.dappier.com/v1/integrations/agent/' . $aimodel_id;
+			// If no widget ID or a new one.
+			if ( ! $new_widget_id || $new_widget_id !== $old_widget_id ) {
+				// Set up the API url and body.
+				$url = 'https://api.dappier.com/v1/integrations/agent/' . $aimodel_id;
 
-		// 	// Set up the request arguments.
-		// 	$args = [
-		// 		'headers' => [
-		// 			'Content-Type'  => 'application/json',
-		// 			'Authorization' => 'Bearer ' . $api_key,
-		// 		],
-		// 	];
+				// Set up the request arguments.
+				$args = [
+					'headers' => [
+						'Content-Type'  => 'application/json',
+						'Authorization' => 'Bearer ' . $api_key,
+					],
+				];
 
-		// 	// Make the request.
-		// 	$response = wp_remote_get( $url, $args );
-		// 	$code     = wp_remote_retrieve_response_code( $response );
+				// Make the request.
+				$response = wp_remote_get( $url, $args );
+				$code     = wp_remote_retrieve_response_code( $response );
 
-		// 	// Check for errors.
-		// 	if ( 200 === $code ) {
-		// 		$body = wp_remote_retrieve_body( $response );
-		// 		$body = json_decode( $body, true );
+				// Check for errors.
+				if ( 200 === $code ) {
+					$body = wp_remote_retrieve_body( $response );
+					$body = json_decode( $body, true );
 
-		// 		if ( $body && isset( $body['widget_id'] ) ) {
-		// 			$value['widget_id'] = $body['widget_id'];
-		// 		}
-		// 	}
-		// }
-
-		// END TEMP
+					if ( $body && isset( $body['widget_id'] ) ) {
+						$value['widget_id'] = $body['widget_id'];
+					}
+				}
+			}
+		}
 
 		// Unset the agent data.
 		unset( $value['agent_name'], $value['agent_desc'], $value['agent_persona'] );
