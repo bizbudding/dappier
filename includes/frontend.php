@@ -118,28 +118,37 @@ function dappier_add_module( $content ) {
 	$theme_color = is_null( $theme_color ) ? '#674ad9' : $theme_color;
 	$theme_color = $theme_color ?: '#674ad9';
 
+	// Set attributes.
+	$attr = [
+		'widgetId'                     => $widget_id,
+		'title'                        => $title,
+		'mainBackgroundColor'          => $bg_color,
+		'mainTextColor'                => $fg_color,
+		'themeColor'                   => $theme_color,
+		'mainLogoUrl'                  => 'https://assets.dappier.com/dappier_logo.png',
+		'mainLogoWidth'                => '90',
+		'chatIconUrl'                  => 'https://assets.dappier.com/dappier_logo_small.png',
+		'chatIconWidth'                => '24',
+		'enablePromptSuggestions'      => 'true',
+		'enableContentRecommendations' => 'true',
+		'showAttributionLinks'         => 'true',
+		'enableSiteName'               => 'false',
+		'enableTitle'                  => 'false',
+	];
+
+	// Allow filtering of attributes.
+	$attr = apply_filters( 'dappier_module_attributes', $attr );
+
+	// Start attributes.
+	$attr_html = '';
+
+	// Build attributes.
+	foreach ( $attr as $key => $value ) {
+		$attr_html .= sprintf( ' %s="%s"', esc_attr( $key ), esc_attr( $value ) );
+	}
+
 	// Add the module.
-	$html = sprintf( '<dappier-ask-ai-widget
-	  widgetId="%s"
-	  title="%s"
-	  mainBackgroundColor="%s"
-	  mainTextColor="%s"
-	  themeColor="%s"
-	  mainLogoUrl="https://assets.dappier.com/dappier_logo.png"
-	  mainLogoWidth="90"
-	  chatIconUrl="https://assets.dappier.com/dappier_logo_small.png"
-	  chatIconWidth="31"
-	  enablePromptSuggestions="true"
-	  enableContentRecommendations="true"
-	  showAttributionLinks="true"
-	  enableSiteName="false"
-	  enableTitle="false" />',
-		esc_attr( $widget_id ),
-		esc_attr( $title ),
-		esc_attr( $bg_color ),
-		esc_attr( $fg_color ),
-		esc_attr( $theme_color )
-	);
+	$html = sprintf( '<dappier-ask-ai-widget%s></dappier-ask-ai-widget>', $attr_html );
 
 	// If before.
 	if ( 'before' === $location ) {
