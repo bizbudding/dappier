@@ -97,11 +97,20 @@ class Dappier_Settings {
 			'dappier_two' // section
 		);
 
-		// Agent Name.
+		// Agent AI Model ID.
 		add_settings_field(
 			'aimodel_id', // id
 			'', // title
 			[ $this, 'aimodel_id_callback' ], // callback
+			'dappier', // page
+			'dappier_three' // section
+		);
+
+		// Agent Data Model ID.
+		add_settings_field(
+			'datamodel_id', // id
+			'', // title
+			[ $this, 'datamodel_id_callback' ], // callback
 			'dappier', // page
 			'dappier_three' // section
 		);
@@ -262,6 +271,19 @@ class Dappier_Settings {
 				echo '<option value="_create_agent">Create a new Agent</option>';
 			echo '</select>';
 		echo '</div>';
+	}
+
+	/**
+	 * Setting callback.
+	 *
+	 * @since 0.5.3
+	 *
+	 * @return void
+	 */
+	function datamodel_id_callback() {
+		$datamodel_id = dappier_get_option( 'datamodel_id' );
+
+		printf( '<input type="hidden" name="dappier[datamodel_id]" id="datamodel_id" value="%s">', esc_attr( $datamodel_id ) );
 	}
 
 	/**
@@ -867,18 +889,23 @@ class Dappier_Settings {
 		}
 
 		// Get the data.
-		$aimodel_id = isset( $value['aimodel_id'] ) ? $value['aimodel_id'] : '';
-		$name       = isset( $value['agent_name'] ) ? $value['agent_name'] : '';
-		$desc       = isset( $value['agent_desc'] ) ? $value['agent_desc'] : '';
-		$pers       = isset( $value['agent_persona'] ) ? $value['agent_persona'] : '';
+		$aimodel_id   = isset( $value['aimodel_id'] ) ? $value['aimodel_id'] : '';
+		$datamodel_id = isset( $value['datamodel_id'] ) ? $value['datamodel_id'] : '';
+		$name         = isset( $value['agent_name'] ) ? $value['agent_name'] : '';
+		$desc         = isset( $value['agent_desc'] ) ? $value['agent_desc'] : '';
+		$pers         = isset( $value['agent_persona'] ) ? $value['agent_persona'] : '';
 
 		// If we have a model, and it's not creating a new one.
 		if ( $aimodel_id && '_create_agent' !== $aimodel_id ) {
-			$old_widget_id = isset( $old_value['widget_id'] ) ? $old_value['widget_id'] : '';
-			$new_widget_id = isset( $value['widget_id'] ) ? $value['widget_id'] : '';
+			$old_datamodel_id   = isset( $old_value['datamodel_id'] ) ? $old_value['datamodel_id'] : '';
+			$new_datamodel_id   = isset( $value['datamodel_id'] ) ? $value['datamodel_id'] : '';
+			$old_widget_id      = isset( $old_value['widget_id'] ) ? $old_value['widget_id'] : '';
+			$new_widget_id      = isset( $value['widget_id'] ) ? $value['widget_id'] : '';
+			$needs_datamodel_id = ! $new_datamodel_id || $old_datamodel_id !== $new_datamodel_id;
+			$needs_widget_id    = ! $new_widget_id || $old_widget_id !== $new_widget_id;
 
-			// If no widget ID or a new one.
-			if ( ! $new_widget_id || $new_widget_id !== $old_widget_id ) {
+			// If we need a data model or widget id.
+			if ( ! $needs_datamodel_id || ! $needs_widget_id ) {
 				// Set up the API url and body.
 				$url = 'https://api.dappier.com/v1/integrations/agent/' . $aimodel_id;
 
@@ -899,8 +926,14 @@ class Dappier_Settings {
 					$body = wp_remote_retrieve_body( $response );
 					$body = json_decode( $body, true );
 
-					if ( $body && isset( $body['widget_id'] ) ) {
-						$value['widget_id'] = $body['widget_id'];
+					if ( $body ) {
+						if ( $needs_datamodel_id && isset( $body['datamodel_id'] ) ) {
+							$value['datamodel_id'] = $body['datamodel_id'];
+						}
+
+						if ( $needs_widget_id && isset( $body['widget_id'] ) ) {
+							$value['widget_id'] = $body['widget_id'];
+						}
 					}
 				}
 			}
