@@ -223,8 +223,7 @@ class Dappier_Endpoints {
 		}
 
 		// Get Data Model ID key.
-		// $datamodel_id = dappier_get_option( 'datamodel_id' );
-		$datamodel_id = dappier_get_option( 'api_key' );
+		$datamodel_id = dappier_get_option( 'datamodel_id' );
 
 		// Bail if no API key.
 		if ( ! $datamodel_id ) {
