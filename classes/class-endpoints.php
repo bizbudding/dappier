@@ -98,6 +98,9 @@ class Dappier_Endpoints {
 	 * @example GET /wp-json/dappier/v1/posts?per_page=5&page=2
 	 * This will return the next 5 posts, starting from the 6th post.
 	 *
+	 * @example GET /wp-json/dappier/v1/posts?post_type=post,portfolio,lesson
+	 * This will return posts, portfolio items, and lessons.
+	 *
 	 * @example GET /wp-json/dappier/v1/posts
 	 * If `per_page` and `page` are not specified, it will default to 20 posts per page and start from the first page.
 	 *
@@ -109,13 +112,15 @@ class Dappier_Endpoints {
 	 */
 	function handle_posts_request( $request ) {
 		// Get pagination parameters from the request.
-		$post_type = $request->get_param( 'post_type' ) ? sanitize_text_field( $request->get_param( 'post_type' ) ) : 'post';
-		$per_page  = $request->get_param( 'per_page' ) ? absint( $request->get_param( 'per_page' ) ) : 20;
-		$page      = $request->get_param( 'page' ) ? absint( $request->get_param( 'page' ) ) : 1;
+		$post_types = $request->get_param( 'post_type' ) ? sanitize_text_field( $request->get_param( 'post_type' ) ) : 'post';
+		$post_types = array_map( 'sanitize_key', explode( ',', $post_types ) );
+		$post_types = array_intersect( $post_types, dappier_get_allowed_post_types() );
+		$per_page   = $request->get_param( 'per_page' ) ? absint( $request->get_param( 'per_page' ) ) : 20;
+		$page       = $request->get_param( 'page' ) ? absint( $request->get_param( 'page' ) ) : 1;
 
 		// Prepare the query arguments.
 		$args = [
-			'post_type'      => $post_type,
+			'post_type'      => $post_types,
 			'posts_per_page' => $per_page,
 			'paged'          => $page,
 		];
@@ -144,6 +149,7 @@ class Dappier_Endpoints {
 					'id'             => $post_id,
 					'url'            => get_permalink(),
 					'title'          => get_the_title(),
+					'post_type'      => get_post_type(),
 					'date'           => get_the_date( 'c' ),
 					'date_modified'  => get_the_modified_date( 'c' ),
 					'author'         => get_the_author(),

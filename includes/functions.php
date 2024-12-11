@@ -3,6 +3,69 @@
 // Prevent direct file access.
 defined( 'ABSPATH' ) || die;
 
+
+/**
+ * Get the allowed post types for the endpoint and content ingestion.
+ *
+ * @access private
+ *
+ * @since TBD
+ *
+ * @return array
+ */
+function dappier_get_allowed_post_types() {
+	$post_types = apply_filters( 'dappier_allowed_post_types', [ 'post' ] );
+	$post_types = array_map( 'sanitize_key', $post_types );
+
+	return $post_types;
+}
+
+/**
+ * Check if the plugin is configured and has required settings.
+ *
+ * @since TBD
+ *
+ * @return bool
+ */
+function dappier_is_configured() {
+	static $cache = null;
+
+	if ( ! is_null( $cache ) ) {
+		return $cache;
+	}
+
+	$api_key      = dappier_get_option( 'api_key' );
+	$aimodel_id   = dappier_get_option( 'aimodel_id' );
+	$datamodel_id = dappier_get_option( 'datamodel_id' );
+	$widget_id    = dappier_get_option( 'widget_id' );
+	$cache        = $api_key && $aimodel_id && $datamodel_id && $widget_id;
+
+	return $cache;
+}
+
+/**
+ * Enqueue the askai script.
+ *
+ * @since TBD
+ *
+ * @return void
+ */
+function dappier_enqueue_askai() {
+	// First time flag.
+	static $first = true;
+
+	// Bail if not the first.
+	if ( ! $first ) {
+		return;
+	}
+
+	// Add the script.
+	wp_enqueue_script( 'dappier-loader' );
+
+	// Not first anymore.
+	$first = false;
+}
+
 /**
  * Get a file version based on last modified date.
  *
