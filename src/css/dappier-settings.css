@@ -21,87 +21,6 @@
 	margin-inline: auto;
 }
 
-p {
-	margin: 0 0 1em;
-	padding: 0;
-}
-
-a {
-	color: var(--color-link);
-}
-
-a:focus {
-	/* match/override WP core button styles */
-	color: currentColor;
-	box-shadow: 0 0 0 2px var(--color-primary);
-	outline: 2px solid transparent;
-}
-
-a:hover,
-a:focus-visible {
-	color: var(--color-primary);
-}
-
-::placeholder {
-	opacity: .6;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="color"]:focus,
-input[type="date"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="email"]:focus,
-input[type="month"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="time"]:focus,
-input[type="url"]:focus,
-input[type="week"]:focus,
-input[type="checkbox"]:focus,
-input[type="radio"]:focus,
-select:focus,
-textarea:focus {
-	border-color: var(--color-body);
-	box-shadow: 0 0 0 1px var(--color-body);
-	outline: 2px solid transparent;
-}
-
-input[type="text"]:focus-visible,
-input[type="password"]:focus-visible,
-input[type="color"]:focus-visible,
-input[type="date"]:focus-visible,
-input[type="datetime"]:focus-visible,
-input[type="datetime-local"]:focus-visible,
-input[type="email"]:focus-visible,
-input[type="month"]:focus-visible,
-input[type="number"]:focus-visible,
-input[type="search"]:focus-visible,
-input[type="tel"]:focus-visible,
-input[type="time"]:focus-visible,
-input[type="url"]:focus-visible,
-input[type="week"]:focus-visible,
-input[type="checkbox"]:focus-visible,
-input[type="radio"]:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-	border: none;
-	box-shadow: 0 0 0 1px var(--color-primary);
-	outline: 2px solid transparent;
-}
-
-/* p:where(:not(:last-child)) {
-	margin: 0 0 1em;
-	padding: 0;
-} */
-
-/* p:where(:last-child) {
-	margin: 0;
-	padding: 0;
-} */
-
 .dappier-header {
 	display: flex;
 	flex-wrap: wrap;
@@ -130,37 +49,91 @@ textarea:focus-visible {
 	}
 }
 
-/* .dappier-notice {
-	margin-block: 12px;
-}
-
-.dappier-notice--success {
-	--dappier-notice-background: var(--color-success);
-	--dappier-notice-color: var(--color-notice);
-}
-
-.dappier-notice--error {
-	--dappier-notice-background: var(--color-error);
-	--dappier-notice-color: var(--color-notice);
-}
-
-.dappier-notice__inner {
-	display: inline-flex;
-	gap: 6px;
-	padding: 6px 12px 6px 6px;
-	background-color: var(--dappier-notice-background, var(--color-neutral));
-	color: var(--dappier-notice-color, var(--color-body) );
-	border-radius: 5px;
-}
-
-.dappier-notice__icon {
-	color: rgba(0, 0, 0, 0.4);
-} */
-
 .dappier-inner {
 	display: grid;
 	gap: 2em;
 	align-items: start;
+
+	p {
+		margin: 0 0 1em;
+		padding: 0;
+	}
+
+	a {
+		color: var(--color-link);
+	}
+
+	a:focus {
+		/* match/override WP core button styles */
+		color: currentColor;
+		box-shadow: 0 0 0 2px var(--color-primary);
+		outline: 2px solid transparent;
+	}
+
+	a:hover,
+	a:focus-visible {
+		color: var(--color-primary);
+	}
+
+	::placeholder {
+		opacity: .6;
+	}
+
+	input[type="text"]:focus,
+	input[type="password"]:focus,
+	input[type="color"]:focus,
+	input[type="date"]:focus,
+	input[type="datetime"]:focus,
+	input[type="datetime-local"]:focus,
+	input[type="email"]:focus,
+	input[type="month"]:focus,
+	input[type="number"]:focus,
+	input[type="search"]:focus,
+	input[type="tel"]:focus,
+	input[type="time"]:focus,
+	input[type="url"]:focus,
+	input[type="week"]:focus,
+	input[type="checkbox"]:focus,
+	input[type="radio"]:focus,
+	select:focus,
+	textarea:focus {
+		border-color: var(--color-body);
+		box-shadow: 0 0 0 1px var(--color-body);
+		outline: 2px solid transparent;
+	}
+
+	input[type="text"]:focus-visible,
+	input[type="password"]:focus-visible,
+	input[type="color"]:focus-visible,
+	input[type="date"]:focus-visible,
+	input[type="datetime"]:focus-visible,
+	input[type="datetime-local"]:focus-visible,
+	input[type="email"]:focus-visible,
+	input[type="month"]:focus-visible,
+	input[type="number"]:focus-visible,
+	input[type="search"]:focus-visible,
+	input[type="tel"]:focus-visible,
+	input[type="time"]:focus-visible,
+	input[type="url"]:focus-visible,
+	input[type="week"]:focus-visible,
+	input[type="checkbox"]:focus-visible,
+	input[type="radio"]:focus-visible,
+	select:focus-visible,
+	textarea:focus-visible {
+		border: none;
+		box-shadow: 0 0 0 1px var(--color-primary);
+		outline: 2px solid transparent;
+	}
+
+	/* p:where(:not(:last-child)) {
+		margin: 0 0 1em;
+		padding: 0;
+	} */
+
+	/* p:where(:last-child) {
+		margin: 0;
+		padding: 0;
+	} */
 }
 
 @media only screen and (min-width: 800px) {

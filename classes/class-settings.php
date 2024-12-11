@@ -60,6 +60,7 @@ class Dappier_Settings {
 	function enqueue_script() {
 		$screen = get_current_screen();
 
+		// Bail if not our settings screen.
 		if ( 'toplevel_page_dappier' !== $screen->id ) {
 			return;
 		}
@@ -153,36 +154,36 @@ class Dappier_Settings {
 
 		// Module Location.
 		add_settings_field(
-			'module_location', // id
+			'askai_location', // id
 			'', // title
-			[ $this, 'module_location_callback' ], // callback
+			[ $this, 'askai_location_callback' ], // callback
 			'dappier', // page
 			'dappier_four' // section
 		);
 
 		// Module Background Color.
 		add_settings_field(
-			'module_bg_color', // id
+			'askai_bg_color', // id
 			'', // title
-			[ $this, 'module_bg_color_callback' ], // callback
+			[ $this, 'askai_bg_color_callback' ], // callback
 			'dappier', // page
 			'dappier_four' // section
 		);
 
 		// Module Text Color.
 		add_settings_field(
-			'module_fg_color', // id
+			'askai_fg_color', // id
 			'', // title
-			[ $this, 'module_fg_color_callback' ], // callback
+			[ $this, 'askai_fg_color_callback' ], // callback
 			'dappier', // page
 			'dappier_four' // section
 		);
 
 		// Module Theme Color.
 		add_settings_field(
-			'module_theme_color', // id
+			'askai_theme_color', // id
 			'', // title
-			[ $this, 'module_theme_color_callback' ], // callback
+			[ $this, 'askai_theme_color_callback' ], // callback
 			'dappier', // page
 			'dappier_four' // section
 		);
@@ -204,10 +205,10 @@ class Dappier_Settings {
 			'agent_name'         => 'sanitize_text_field',
 			'agent_desc'         => 'sanitize_textarea_field',
 			'agent_persona'      => 'sanitize_textarea_field',
-			'module_location'    => 'sanitize_text_field',
-			'module_bg_color'    => 'sanitize_text_field',
-			'module_fg_color'    => 'sanitize_text_field',
-			'module_theme_color' => 'sanitize_text_field',
+			'askai_location'    => 'sanitize_text_field',
+			'askai_bg_color'    => 'sanitize_text_field',
+			'askai_fg_color'    => 'sanitize_text_field',
+			'askai_theme_color' => 'sanitize_text_field',
 		];
 
 		// Get an array of matching keys from $input.
@@ -368,14 +369,14 @@ class Dappier_Settings {
 	 *
 	 * @return void
 	 */
-	function module_location_callback() {
-		$value = dappier_get_option( 'module_location' );
+	function askai_location_callback() {
+		$value = dappier_get_option( 'askai_location' );
 
 		echo '<div class="dappier-step__field">';
-			printf( '<label class="dappier-step__label" for="dappier[module_location]">%s</label>', __( 'Module Location', 'dappier' ) );
-			printf( '<p class="dappier-step__desc">%s</p>', __( 'Select where you would like the AI module to appear on your site. Use [dappier_module] shortcode to manually display the module.', 'dappier' ) );
+			printf( '<label class="dappier-step__label" for="dappier[askai_location]">%s</label>', __( 'Module Location', 'dappier' ) );
+			printf( '<p class="dappier-step__desc">%s</p>', __( 'Select where you would like the AI askai to appear on your site. Use [dappier_askai] shortcode to manually display the askai.', 'dappier' ) );
 
-			echo '<select class="dappier-step__input" name="dappier[module_location]" id="module_location">';
+			echo '<select class="dappier-step__input" name="dappier[askai_location]" id="askai_location">';
 				$options = [
 					''       => __( 'Disabled', 'dappier' ),
 					'before' => __( 'Before Post Content', 'dappier' ),
@@ -397,14 +398,14 @@ class Dappier_Settings {
 	 *
 	 * @return void
 	 */
-	function module_bg_color_callback() {
-		$value = dappier_get_option( 'module_bg_color' );
+	function askai_bg_color_callback() {
+		$value = dappier_get_option( 'askai_bg_color' );
 		$value = ! is_null( $value ) ? $value : '#f8f9fa';
 
 		echo '<div class="dappier-step__field">';
-			printf( '<label class="dappier-step__label" for="dappier[module_bg_color]">%s</label>', __( 'Module Background Color', 'dappier' ) );
-			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the background color for the AI module.', 'dappier' ) );
-			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[module_bg_color]" id="module_bg_color" value="%s">', $value );
+			printf( '<label class="dappier-step__label" for="dappier[askai_bg_color]">%s</label>', __( 'Module Background Color', 'dappier' ) );
+			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the background color for the AI askai.', 'dappier' ) );
+			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[askai_bg_color]" id="askai_bg_color" value="%s">', $value );
 		echo '</div>';
 	}
 
@@ -415,13 +416,13 @@ class Dappier_Settings {
 	 *
 	 * @return void
 	 */
-	function module_fg_color_callback() {
-		$value = dappier_get_option( 'module_fg_color' );
+	function askai_fg_color_callback() {
+		$value = dappier_get_option( 'askai_fg_color' );
 
 		echo '<div class="dappier-step__field">';
-			printf( '<label class="dappier-step__label" for="dappier[module_fg_color]">%s</label>', __( 'Module Text Color', 'dappier' ) );
-			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the text color for the AI module.', 'dappier' ) );
-			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[module_fg_color]" id="module_fg_color" value="%s">', $value );
+			printf( '<label class="dappier-step__label" for="dappier[askai_fg_color]">%s</label>', __( 'Module Text Color', 'dappier' ) );
+			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the text color for the AI askai.', 'dappier' ) );
+			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[askai_fg_color]" id="askai_fg_color" value="%s">', $value );
 		echo '</div>';
 	}
 
@@ -432,14 +433,14 @@ class Dappier_Settings {
 	 *
 	 * @return void
 	 */
-	function module_theme_color_callback() {
-		$value = dappier_get_option( 'module_theme_color' );
+	function askai_theme_color_callback() {
+		$value = dappier_get_option( 'askai_theme_color' );
 		$value = ! is_null( $value ) ? $value : '#674ad9';
 
 		echo '<div class="dappier-step__field">';
-			printf( '<label class="dappier-step__label" for="dappier[module_theme_color]">%s</label>', __( 'Module Theme Color', 'dappier' ) );
-			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the theme color for the AI module.', 'dappier' ) );
-			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[module_theme_color]" id="module_theme_color" value="%s">', $value );
+			printf( '<label class="dappier-step__label" for="dappier[askai_theme_color]">%s</label>', __( 'Module Theme Color', 'dappier' ) );
+			// printf( '<p class="dappier-step__desc">%s</p>', __( 'Set the theme color for the AI askai.', 'dappier' ) );
+			printf( '<input class="dappier-step__input dappier-color-picker" type="text" name="dappier[askai_theme_color]" id="askai_theme_color" value="%s">', $value );
 		echo '</div>';
 	}
 
@@ -508,6 +509,16 @@ class Dappier_Settings {
 			printf( '<div class="%s">', $classes );
 				// Start form.
 				echo '<form class="dappier-form" method="post" action="options.php">';
+					// If forced inactive.
+					if ( ! $active && dappier_is_configured() ) {
+						echo '<div class="dappier-callout">';
+							echo '<div style="display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:36px;">';
+								printf( '<p style="margin:0;font-size:1.25em;text-wrap:balance;"><strong>%s</strong></p>', __( 'Your account is successfully connected, go configure your settings!', 'dappier' ) );
+								printf( '<a href="%s" class="button button-primary">%s</a>', admin_url( 'admin.php?page=dappier' ), __( 'Configure Now →', 'dappier' ) );
+							echo '</div>';
+						echo '</div>';
+					}
+
 					// Step 1.
 					echo '<div class="dappier-step dappier-step__one">';
 						echo '<div class="dappier-step__inner">';
