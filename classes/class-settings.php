@@ -741,7 +741,7 @@ class Dappier_Settings {
 		// Map the details.
 		$map = [
 			'account_id'           => [ 'label' => __( 'Account ID', 'dappier' ), 'sanitize' => 'sanitize_key' ],
-			'widget_id'            => [ 'label' => __( 'Widget ID', 'dappier' ), 'sanitize' => 'sanitize_key' ],
+			'widget_id'            => [ 'label' => __( 'AskAI ID', 'dappier' ), 'sanitize' => 'sanitize_key' ],
 			'email'                => [ 'label' => __( 'Email', 'dappier' ), 'sanitize' => 'sanitize_email' ],
 			'name'                 => [ 'label' => __( 'Name', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],
 			'subscription_level'   => [ 'label' => __( 'Subscription', 'dappier' ), 'sanitize' => 'sanitize_text_field' ],

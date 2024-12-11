@@ -60,7 +60,7 @@ function dappier_enqueue_askai() {
 	}
 
 	// Add the script.
-	wp_enqueue_script( 'dappier-loader' );
+	wp_enqueue_script( 'dappier-askai' );
 
 	// Not first anymore.
 	$first = false;
