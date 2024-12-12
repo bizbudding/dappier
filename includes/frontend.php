@@ -38,7 +38,7 @@ function dappier_enqueue_scripts() {
 	}
 
 	// Enqueue the script.
-	dappier_enqueue_askai();
+	dappier_enqueue_loader();
 }
 
 add_filter( 'script_loader_tag', 'dappier_add_script_attributes', 10, 2 );

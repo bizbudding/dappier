@@ -32,7 +32,7 @@ class Dappier_AskAi {
 		}
 
 		// Enqueue the instance.
-		dappier_enqueue_askai();
+		dappier_enqueue_loader();
 
 		// Start attributes.
 		$attributes = $this->args;
@@ -60,7 +60,7 @@ class Dappier_AskAi {
 		$html = apply_filters( 'dappier_askai_html', $html, $attr );
 
 		// Return the instance.
-		return wp_kses_post( $html );
+		return $html;
 	}
 
 	/**

@@ -50,7 +50,7 @@ function dappier_is_configured() {
  *
  * @return void
  */
-function dappier_enqueue_askai() {
+function dappier_enqueue_loader() {
 	// First time flag.
 	static $first = true;
 
@@ -60,7 +60,7 @@ function dappier_enqueue_askai() {
 	}
 
 	// Add the script.
-	wp_enqueue_script( 'dappier-askai' );
+	wp_enqueue_script( 'dappier-loader' );
 
 	// Not first anymore.
 	$first = false;
